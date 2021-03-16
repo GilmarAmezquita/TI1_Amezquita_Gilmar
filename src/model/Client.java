@@ -12,6 +12,13 @@ public class Client extends Person{
 		observations = o;
 	}
 	
+	public Client(String n, String ln, long id, String a, long p, String o) {
+		super(n, ln, id);
+		address = a;
+		phone = p;
+		observations = o;
+	}
+	
 	public String getAddress() {
 		return address;
 	}

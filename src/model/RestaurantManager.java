@@ -14,12 +14,16 @@ public class RestaurantManager {
 		userList = new ArrayList<>();
 	}
 	
+	public List<Employee> getEmployeeList(){
+		return employeeList;
+	}
+	
 	private int searchUser(String username) {
 		boolean founded = false;
 		int position = 0;
 		int start = 0;
 		int end = userList.size();
-		while(start <= end && !founded) {
+		while(userList.size()>0 && start <= end && !founded) {
 			int mid = (start+end)/2;
 			if(userList.get(mid).getUsername().compareTo(username) == 0) {
 				founded = true;
@@ -32,6 +36,23 @@ public class RestaurantManager {
 			position = -1;
 		}
 		return position;
+	}
+	
+	public boolean searchIfEmployeeHaveUser(String name, String lastname) {
+		boolean founded = false;
+		int start = 0;
+		int end = userList.size();
+		while(start <= end && !founded) {
+			int mid = (start+end)/2;
+			if(userList.get(mid).getName().compareTo(name) == 0) {
+				if(userList.get(mid).getLastname().compareTo(lastname)==0) {
+					founded = true;
+				}
+			}else if(userList.get(mid).getName().compareTo(name) > 0) {
+				end = mid-1;
+			}else start = mid+1;
+		}
+		return founded;
 	}
 	
 	public boolean userLogIn(String username, String password) {
@@ -60,16 +81,9 @@ public class RestaurantManager {
 		}
 		return added;
 	}
-	
-	private int defineEmployeeIdentifier() {
-		int identifier = 0;
-		identifier = employeeList.size();
-		return identifier;
-	}
-	
-	public void addEmployee(String n, String ln) {
-		int i = defineEmployeeIdentifier();
-		Employee newEmployee = new Employee(n, ln, i);
+		
+	public void addEmployee(String n, String ln, long id) {
+		Employee newEmployee = new Employee(n, ln, id);
 		employeeList.add(newEmployee);
 	}
 	

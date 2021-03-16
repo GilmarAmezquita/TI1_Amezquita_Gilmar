@@ -3,10 +3,17 @@ package model;
 public abstract class Person {
 	private String name;
 	private String lastname;
+	private long identification;
 	
 	public Person(String n, String ln) {
 		name = n;
 		lastname = ln;
+		identification = 0;
+	}
+	public Person(String n, String ln, long id) {
+		name = n;
+		lastname = ln;
+		identification = id;
 	}
 	
 	public String getName() {
@@ -23,5 +30,9 @@ public abstract class Person {
 	
 	public void replaceLastname(String nln) {
 		lastname = nln;
+	}
+	
+	public long getIdentification() {
+		return identification;
 	}
 }
