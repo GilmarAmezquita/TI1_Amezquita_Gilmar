@@ -4,7 +4,7 @@ public class User extends Employee {
 	private String username;
 	private String password;
 	
-	public User(String n, String ln, int i, String un,String ps) {
+	public User(String n, String ln, long i, String un,String ps) {
 		super(n, ln, i);
 		username = un;
 		password = ps;

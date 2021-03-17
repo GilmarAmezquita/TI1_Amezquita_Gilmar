@@ -38,11 +38,11 @@ public class RestaurantManager {
 		return position;
 	}
 	
-	public boolean searchIfEmployeeHaveUser(String name, String lastname) {
+	private boolean searchIfEmployeeHaveUser(String name, String lastname) {
 		boolean founded = false;
 		int start = 0;
 		int end = userList.size();
-		while(start <= end && !founded) {
+		while(userList.size()>0 && start <= end && !founded) {
 			int mid = (start+end)/2;
 			if(userList.get(mid).getName().compareTo(name) == 0) {
 				if(userList.get(mid).getLastname().compareTo(lastname)==0) {
@@ -66,9 +66,10 @@ public class RestaurantManager {
 		return login;
 	}
 	
-	public boolean addUser(String name, String lastname, int identifier, String username,String password) {
+	public boolean createUser(String name, String lastname, long identifier, String username,String password) {
+		boolean noCreate = searchIfEmployeeHaveUser(name, lastname);
 		boolean added = false;
-		if(searchUser(username) < 0) {
+		if(searchUser(username) < 0 && !noCreate) {
 			User newUser = new User(name, lastname, identifier, username, password);
 			if(userList.isEmpty()) {
 				userList.add(newUser);
