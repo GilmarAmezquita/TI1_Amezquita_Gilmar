@@ -161,7 +161,7 @@ public class RestaurantManagerGUI {
     
     @FXML
     private void accountSignUp(ActionEvent event) throws IOException {
-    	boolean create = checkForEmpty();
+    	boolean create = checkForEmptySignUpUser();
     	boolean created = false;
     	if(create) {
     		String name = txtEmployeeNameSignUp.getValue();
@@ -170,11 +170,11 @@ public class RestaurantManagerGUI {
     		String username = txtUsernameSignUp.getText();
     		String password = txtFirstPasswordSignUp.getText();
     		created = restaurantManager.createUser(name, lastname, identification, username, password);
-    		alertAccount(created);
+    		alertAccount(created, 1);
     	}
     }
     
-    private boolean checkForEmpty() {
+    private boolean checkForEmptySignUpUser() {
     	boolean create = true;
     	Alert emptyAlert  =new Alert(AlertType.INFORMATION);
     	emptyAlert.setTitle("Missing Information");
@@ -211,23 +211,6 @@ public class RestaurantManagerGUI {
     	return create;
     }
 
-    private void alertAccount(boolean created) throws IOException{
-    	Alert alertCreated = new Alert(AlertType.INFORMATION);
-    	alertCreated.setHeaderText(null);
-    	if(created) {
-    		alertCreated.setTitle("Account created");
-    		alertCreated.setContentText("The new account has been created");
-    		showScreenLogIn();
-    	}else {
-    		alertCreated.setTitle("Validation Error");
-    		alertCreated.setContentText("Account couldn't be created");
-    		txtUsernameSignUp.setText(null);
-    		txtFirstPasswordSignUp.setText(null);
-    		txtSecondPasswordSignUp.setText(null);
-    	}
-    	alertCreated.showAndWait();
-    }
-    
     @FXML
     void backScreenLogIn(ActionEvent event) throws IOException {
     	showScreenLogIn();
@@ -242,10 +225,75 @@ public class RestaurantManagerGUI {
     }
     
     @FXML
-    void createNewEmployee(ActionEvent event) {
-
+    void createNewEmployee(ActionEvent event) throws IOException {
+    	boolean create = checkForEmptyNewEmployee();
+    	boolean created = false;
+    	if(create) {
+    		String name = txtEmployeeNameNewEmployee.getText();
+    		String lastname = txtEmployeeLastnameNewEmployee.getText();
+    		long identification = Long.parseLong(txtEmployeeIdentificationNewEmployee.getText());
+    		created = restaurantManager.createEmployee(name, lastname, identification);
+    		alertAccount(created, 2);
+    	}
     }
 	
+    private boolean checkForEmptyNewEmployee() {
+    	boolean create = true;
+    	Alert emptyAlert  =new Alert(AlertType.INFORMATION);
+    	emptyAlert.setTitle("Missing Information");
+    	emptyAlert.setHeaderText(null);
+    	if(txtEmployeeNameNewEmployee.getText().isEmpty()) {
+    		create = false;
+    		emptyAlert.setContentText("Employee's name is missing");
+    		emptyAlert.showAndWait();
+    	}else if(txtEmployeeLastnameNewEmployee.getText().isEmpty()) {
+    		create = false;
+    		emptyAlert.setContentText("Employee's lastname is missing");
+    		emptyAlert.showAndWait();		
+    	}else if(txtEmployeeIdentificationNewEmployee.getText().isEmpty()) {
+    		create = false;
+    		emptyAlert.setContentText("Employee's identification is missing");
+    		emptyAlert.showAndWait();	
+    	}
+    	return create;
+    }
+    
+
+    private void alertAccount(boolean created, int toDo) throws IOException{
+    	Alert alertCreated = new Alert(AlertType.INFORMATION);
+    	alertCreated.setHeaderText(null);
+    	switch(toDo) {
+    		case 1:
+    			if(created) {
+    	    		alertCreated.setTitle("Account created");
+    	    		alertCreated.setContentText("The new account has been created");
+    	    		showScreenLogIn();
+    	    	}else {
+    	    		alertCreated.setTitle("Validation Error");
+    	    		alertCreated.setContentText("Account couldn't be created");
+    	    		txtUsernameSignUp.setText(null);
+    	    		txtFirstPasswordSignUp.setText(null);
+    	    		txtSecondPasswordSignUp.setText(null);
+    	    	}
+    			break;
+    		case 2:
+    			if(created) {
+    	    		alertCreated.setTitle("Employee created");
+    	    		alertCreated.setContentText("The new employee has been created");
+    	    		showScreenLogIn();
+    	    	}else {
+    	    		alertCreated.setTitle("Validation Error");
+    	    		alertCreated.setContentText("Employee couldn't be added");
+    	    		txtUsernameSignUp.setText(null);
+    	    		txtFirstPasswordSignUp.setText(null);
+    	    		txtSecondPasswordSignUp.setText(null);
+    	    	}
+    			break;
+    	}
+    	alertCreated.showAndWait();
+    }
+    
+    
 	@FXML
     void showScreenClientList(ActionEvent event) {
 
@@ -259,7 +307,5 @@ public class RestaurantManagerGUI {
 	public RestaurantManagerGUI(RestaurantManager rm){
 		restaurantManager = rm;
 		loged = false;
-		restaurantManager.addEmployee("Gilmar", "Amezquita", 1006351546);
-		restaurantManager.addEmployee("Ana", "Romero", 1006351545);
 	}
 }

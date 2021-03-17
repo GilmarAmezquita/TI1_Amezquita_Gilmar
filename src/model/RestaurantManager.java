@@ -20,7 +20,7 @@ public class RestaurantManager {
 	
 	private int searchUser(String username) {
 		boolean founded = false;
-		int position = 0;
+		int position = -1;
 		int start = 0;
 		int end = userList.size();
 		while(userList.size()>0 && start <= end && !founded) {
@@ -32,23 +32,40 @@ public class RestaurantManager {
 				end = mid-1;
 			}else start = mid+1;
 		}
-		if(!founded) {
-			position = -1;
-		}
 		return position;
 	}
 	
-	private boolean searchIfEmployeeHaveUser(String name, String lastname) {
+	private boolean searchIdentification(long identification, int withList) {
+		boolean founded= false;
+		int start = 0;
+		switch(withList) {
+			case 1:
+				int end = employeeList.size();
+				while(employeeList.size()>0 && start <= end && !founded) {
+					int mid = (start+end)/2;
+					if(employeeList.get(mid).getIdentification() == identification) {
+						founded = true;
+					}else if(employeeList.get(mid).getIdentification() > identification){
+						end = mid-1;
+					}else start = mid+1;
+				}
+				break;
+			case 2:
+				//For clients
+				break;
+		}
+		return founded;
+	}
+	
+	private boolean searchIfEmployeeHaveUser(long identification) {
 		boolean founded = false;
 		int start = 0;
 		int end = userList.size();
 		while(userList.size()>0 && start <= end && !founded) {
 			int mid = (start+end)/2;
-			if(userList.get(mid).getName().compareTo(name) == 0) {
-				if(userList.get(mid).getLastname().compareTo(lastname)==0) {
-					founded = true;
-				}
-			}else if(userList.get(mid).getName().compareTo(name) > 0) {
+			if(userList.get(mid).getIdentification() == identification) {
+				founded = true;
+			}else if(userList.get(mid).getIdentification() > identification) {
 				end = mid-1;
 			}else start = mid+1;
 		}
@@ -67,7 +84,7 @@ public class RestaurantManager {
 	}
 	
 	public boolean createUser(String name, String lastname, long identifier, String username,String password) {
-		boolean noCreate = searchIfEmployeeHaveUser(name, lastname);
+		boolean noCreate = searchIfEmployeeHaveUser(identifier);
 		boolean added = false;
 		if(searchUser(username) < 0 && !noCreate) {
 			User newUser = new User(name, lastname, identifier, username, password);
@@ -82,7 +99,22 @@ public class RestaurantManager {
 		}
 		return added;
 	}
-		
+	
+	public boolean createEmployee(String name, String lastname, long identifier) {
+		boolean added = false;
+		if(!searchIdentification(identifier, 1)) {
+			Employee newEmployee = new Employee(name, lastname, identifier);
+			if(employeeList.isEmpty()) {
+				employeeList.add(newEmployee);
+			}else {
+				int i = 0;
+				for(i = 0; i<employeeList.size() && employeeList.get(i).getIdentification()<identifier; i++);
+				employeeList.add(i, newEmployee);
+			}
+			added = true;
+		}
+		return added;
+	}
 	public void addEmployee(String n, String ln, long id) {
 		Employee newEmployee = new Employee(n, ln, id);
 		employeeList.add(newEmployee);

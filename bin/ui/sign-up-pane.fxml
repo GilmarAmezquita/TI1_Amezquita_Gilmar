@@ -28,6 +28,9 @@
                <font>
                   <Font name="System Bold Italic" size="28.0" />
                </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
             </Label>
             <Label text="Name:" GridPane.rowIndex="1">
                <GridPane.margin>
