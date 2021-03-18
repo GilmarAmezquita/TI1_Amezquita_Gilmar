@@ -25,6 +25,8 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("La Casa Dorada");
 		primaryStage.show();
+		primaryStage.setMinWidth(650);
+		primaryStage.setMinHeight(450);
 		restaurantManagerGUI.showScreenLogIn();
 	}
 	

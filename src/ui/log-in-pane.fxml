@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane VBox.vgrow="ALWAYS">
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -24,19 +28,14 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="LA CASA DORADA" GridPane.halignment="CENTER">
-               <font>
-                  <Font name="System Bold Italic" size="28.0" />
-               </font>
-            </Label>
             <Button mnemonicParsing="false" onAction="#accountLogIn" prefWidth="70.0" text="Log In" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <GridPane.margin>
-                  <Insets left="80.0" />
+                  <Insets right="80.0" />
                </GridPane.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#showScreenRegisterAccount" prefWidth="70.0" text="Sign Up" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <GridPane.margin>
-                  <Insets right="80.0" />
+                  <Insets left="80.0" />
                </GridPane.margin>
             </Button>
             <Label text="Username:" GridPane.rowIndex="1">
@@ -59,6 +58,24 @@
                   <Insets left="150.0" right="150.0" top="50.0" />
                </GridPane.margin>
             </PasswordField>
+            <ImageView fx:id="imgLaCasaDorada" fitHeight="150.0" fitWidth="485.0" nodeOrientation="INHERIT" opacity="0.82" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+               <image>
+                  <Image url="@../../data/laCasaDorada.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+               <effect>
+                  <Lighting diffuseConstant="0.93" specularConstant="0.23" specularExponent="11.63" surfaceScale="2.89">
+                     <bumpInput>
+                        <Shadow color="#ae3d3d" height="71.16" radius="35.08" width="71.16" />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant color="#e1db3b" />
+                     </light>
+                  </Lighting>
+               </effect>
+            </ImageView>
          </children>
       </GridPane>
    </children>

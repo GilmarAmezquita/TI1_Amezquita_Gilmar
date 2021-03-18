@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
@@ -25,6 +26,9 @@ public class RestaurantManagerGUI {
 
     @FXML
     private PasswordField txtPasswordLogIn;
+    
+    @FXML
+    private ImageView imgLaCasaDorada;
     
     @FXML
     private ChoiceBox<String> txtEmployeeNameSignUp;
@@ -53,6 +57,9 @@ public class RestaurantManagerGUI {
     @FXML
     private TextField txtEmployeeIdentificationNewEmployee;
     
+    @FXML
+    private BorderPane managementPane;
+    
 	private RestaurantManager restaurantManager;
 	private boolean loged;
 	
@@ -73,7 +80,7 @@ public class RestaurantManagerGUI {
 	}
 	
 	@FXML
-    void showScreenRegisterEmployee(ActionEvent event) throws IOException {
+    private void showScreenRegisterEmployee(ActionEvent event) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("new-employee-pane.fxml"));
 		fxmlLoader.setController(this);
 		Parent newEmployeePane = fxmlLoader.load();
@@ -90,7 +97,6 @@ public class RestaurantManagerGUI {
 		mainPanel.setCenter(signUpScreenPane);
 		initializeChoicesBoxNameEmployeeSignUp();
     }
-	
 	
     @FXML
     private void accountLogIn(ActionEvent event) throws IOException {
@@ -280,7 +286,7 @@ public class RestaurantManagerGUI {
     			if(created) {
     	    		alertCreated.setTitle("Employee created");
     	    		alertCreated.setContentText("The new employee has been created");
-    	    		showScreenLogIn();
+    	    		showScreenRegisterAccount(null);
     	    	}else {
     	    		alertCreated.setTitle("Validation Error");
     	    		alertCreated.setContentText("Employee couldn't be added");
@@ -293,17 +299,20 @@ public class RestaurantManagerGUI {
     	alertCreated.showAndWait();
     }
     
-    
-	@FXML
-    void showScreenClientList(ActionEvent event) {
-
+    @FXML
+    void showScreenManageClients(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("log-in-pane.fxml"));
+    	fxmlLoader.setController(this);
+    	Parent manageClients = fxmlLoader.load();
+    	managementPane.getChildren().clear();
+    	managementPane.setTop(manageClients);
     }
 
     @FXML
-    void showScreenEmployeeList(ActionEvent event) {
+    void showScreenManageEmployees(ActionEvent event) {
 
     }
-
+    
 	public RestaurantManagerGUI(RestaurantManager rm){
 		restaurantManager = rm;
 		loged = false;
