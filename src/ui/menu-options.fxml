@@ -2,7 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -29,7 +31,7 @@
                   <Insets />
                </GridPane.margin>
             </Label>
-            <Button mnemonicParsing="false" onAction="#backScreenLogIn" text="Log Out" GridPane.halignment="RIGHT">
+            <Button mnemonicParsing="false" onAction="#showScreenLogIn" text="Log Out" GridPane.halignment="RIGHT">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
@@ -43,35 +45,35 @@
                 <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#showScreenManageClients" prefWidth="140.0" text="Manage Clients">
-                     <GridPane.margin>
-                        <Insets bottom="120.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#showScreenManageEmployees" prefWidth="140.0" text="Manage Employees">
-                     <GridPane.margin>
-                        <Insets bottom="180.0" />
-                     </GridPane.margin>
-                  </Button>
                   <Label text="MANAGEMENT" GridPane.valignment="TOP">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" prefWidth="140.0" text="Manage Ingredients">
+                  <Button mnemonicParsing="false" onAction="#showManageEmployees" prefWidth="140.0" text="Manage Employees">
+                     <GridPane.margin>
+                        <Insets bottom="180.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#showManageClients" prefWidth="140.0" text="Manage Clients">
+                     <GridPane.margin>
+                        <Insets bottom="120.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#showManageIngredients" prefWidth="140.0" text="Manage Ingredients">
                      <GridPane.margin>
                         <Insets bottom="60.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="140.0" text="Manage Product Types" />
-                  <Button mnemonicParsing="false" prefWidth="140.0" text="Manage Products">
+                  <Button mnemonicParsing="false" onAction="#showManageProductTypes" prefWidth="140.0" text="Manage Product Types" />
+                  <Button mnemonicParsing="false" onAction="#showManageProducts" prefWidth="140.0" text="Manage Products">
                      <GridPane.margin>
                         <Insets top="60.0" />
                      </GridPane.margin>
                   </Button>
                   <BorderPane fx:id="managementPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-                     <top>
-                        <GridPane disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" BorderPane.alignment="CENTER">
+                     <center>
+                        <GridPane BorderPane.alignment="CENTER">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
@@ -79,67 +81,162 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <GridPane fx:id="showManageEmployeesOptions" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="405.0">
+                              <GridPane fx:id="showManageCreateEmployee" gridLinesVisible="true" visible="false">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                                </rowConstraints>
-                                 <children>
-                                    <Button mnemonicParsing="false" text="Create" GridPane.halignment="CENTER" />
-                                    <Button mnemonicParsing="false" text="Remove" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-                                    <Button mnemonicParsing="false" text="Update" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                                    <Button mnemonicParsing="false" text="Status" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
-                                 </children>
-                              </GridPane>
-                              <GridPane fx:id="showManageClientsOptions">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
+                                 <children>
+                                    <Label alignment="TOP_LEFT" text="Create Employee" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets top="10.0" />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold Italic" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Name:">
+                                       <GridPane.margin>
+                                          <Insets bottom="140.0" left="50.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="txtCreateManageEmployeeName">
+                                       <GridPane.margin>
+                                          <Insets bottom="140.0" left="130.0" right="80.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Label text="Lastname:">
+                                       <GridPane.margin>
+                                          <Insets bottom="20.0" left="50.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="txtCreateManageEmployeeLastname">
+                                       <GridPane.margin>
+                                          <Insets bottom="20.0" left="130.0" right="80.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Label text="Identification:">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" top="100.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="txtCreateManageEmployeeIdentification">
+                                       <GridPane.margin>
+                                          <Insets left="130.0" right="80.0" top="100.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" onAction="#manageCreateNewEmployee" text="Create" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets top="200.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                 </children>
                               </GridPane>
-                              <GridPane fx:id="showManageIngredientsOptions">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
+                              <GridPane fx:id="showManageEmployee" gridLinesVisible="true">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Manage Employee" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                       <font>
+                                          <Font name="System Bold Italic" size="16.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets top="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Identification:">
+                                       <GridPane.margin>
+                                          <Insets bottom="160.0" left="50.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ChoiceBox fx:id="txtManageEmployeeIdentification" onMousePressed="#initializeEmployeeList" prefWidth="150.0">
+                                       <GridPane.margin>
+                                          <Insets bottom="160.0" left="130.0" />
+                                       </GridPane.margin>
+                                    </ChoiceBox>
+                                    <Button mnemonicParsing="false" onAction="#getEmployeeToInfo" text="Get info" GridPane.halignment="RIGHT">
+                                       <GridPane.margin>
+                                          <Insets bottom="160.0" right="50.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Label text="Name:">
+                                       <GridPane.margin>
+                                          <Insets bottom="60.0" left="50.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="txtManageEmployeeName" editable="false">
+                                       <GridPane.margin>
+                                          <Insets bottom="60.0" left="130.0" right="80.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" onAction="#updateEmployeeName" text="Update" GridPane.halignment="RIGHT">
+                                       <GridPane.margin>
+                                          <Insets bottom="60.0" right="20.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Label text="Lastname:">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" top="40.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="txtManageEmployeeLastname" editable="false">
+                                       <GridPane.margin>
+                                          <Insets left="130.0" right="80.0" top="40.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" onAction="#updateEmployeeLastname" text="Update" GridPane.halignment="RIGHT">
+                                       <GridPane.margin>
+                                          <Insets right="20.0" top="40.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Label text="State:">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" top="140.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="txtManageEmployeeState" editable="false">
+                                       <GridPane.margin>
+                                          <Insets left="130.0" right="80.0" top="140.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" onAction="#setEmployeeEnable" text="Enable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                       <GridPane.margin>
+                                          <Insets bottom="40.0" right="80.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#setEmployeeDisable" text="Disable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                       <GridPane.margin>
+                                          <Insets bottom="40.0" left="80.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#manageRemoveEmployee" text="Remove" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                       <GridPane.margin>
+                                          <Insets bottom="10.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                 </children>
                               </GridPane>
-                              <GridPane fx:id="showManageProductTypesOptions">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="showManageProductsOptions">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
+                           </children>
+                        </GridPane>
+                     </center>
+                     <top>
+                        <GridPane fx:id="showManageObjectOptions" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="405.0" BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                          </rowConstraints>
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#showManageCreateObject" text="Create" GridPane.halignment="CENTER" />
+                              <Button mnemonicParsing="false" onAction="#showManageManageObject" text="Manage" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                            </children>
                         </GridPane>
                      </top></BorderPane>

@@ -34,7 +34,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#createNewEmployee" text="Create Employee" VBox.vgrow="NEVER" />
                   <Label />
-                  <Button mnemonicParsing="false" onAction="#backToPaneFromNewEmployee" text="Back" VBox.vgrow="NEVER" />
+                  <Button mnemonicParsing="false" onAction="#showScreenRegisterAccount" text="Back" VBox.vgrow="NEVER" />
                </children>
             </VBox>
             <Label text="Name:" GridPane.rowIndex="1">

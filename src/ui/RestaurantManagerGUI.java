@@ -14,56 +14,73 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import model.RestaurantManager;
 
 public class RestaurantManagerGUI {
 	
 	@FXML
     private BorderPane mainPanel;
-    
 	@FXML
     private TextField txtUsernameLogIn;
-
     @FXML
     private PasswordField txtPasswordLogIn;
-    
     @FXML
     private ImageView imgLaCasaDorada;
-    
     @FXML
     private ChoiceBox<String> txtEmployeeNameSignUp;
-    
     @FXML
     private ChoiceBox<String> txtEmployeeLastnameSignUp;
-
     @FXML
     private ChoiceBox<Long> txtEmployeeIdentificationSignUp;
-
     @FXML
     private TextField txtUsernameSignUp;
-
     @FXML
     private PasswordField txtFirstPasswordSignUp;
-
     @FXML
     private PasswordField txtSecondPasswordSignUp;
-    
     @FXML
     private TextField txtEmployeeNameNewEmployee;
-
     @FXML
     private TextField txtEmployeeLastnameNewEmployee;
-
     @FXML
     private TextField txtEmployeeIdentificationNewEmployee;
+    
+    @FXML
+    private GridPane showManageObjectOptions;
+    @FXML
+    private GridPane showManageCreateEmployee;
+    @FXML
+    private TextField txtCreateManageEmployeeName;
+    @FXML
+    private TextField txtCreateManageEmployeeLastname;
+    @FXML
+    private TextField txtCreateManageEmployeeIdentification;
+    
+    @FXML
+    private GridPane showManageEmployee;
+    @FXML
+    private ChoiceBox<Long> txtManageEmployeeIdentification;
+    @FXML
+    private TextField txtManageEmployeeName;
+    @FXML
+    private TextField txtManageEmployeeLastname;
+    @FXML
+    private TextField txtManageEmployeeState;
+
     
     @FXML
     private BorderPane managementPane;
     
 	private RestaurantManager restaurantManager;
-	private boolean loged;
+	private boolean manageEmployee;
+	private boolean manageClient;
+	private boolean manageIngredients;
+	private boolean manageProductTypes;
+	private boolean manageProducts;
 	
 	public void showScreenLogIn() throws IOException {
+		restaurantManager.setuserLoggedNull();
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("log-in-pane.fxml"));
 		fxmlLoader.setController(this);
 		Parent logInScreenPane = fxmlLoader.load();
@@ -104,8 +121,8 @@ public class RestaurantManagerGUI {
     	if(!txtUsernameLogIn.getText().isEmpty() && !txtPasswordLogIn.getText().isEmpty()) {
     		login = restaurantManager.userLogIn(txtUsernameLogIn.getText(), txtPasswordLogIn.getText());
     		if(login) {
+    			restaurantManager.setUserLogged(txtUsernameLogIn.getText());
     			showScreenMenuOption();
-    			loged = true;
     		}else incorrectInformation();
     	}else missingInformation();
     	
@@ -216,22 +233,9 @@ public class RestaurantManagerGUI {
     	}
     	return create;
     }
-
-    @FXML
-    void backScreenLogIn(ActionEvent event) throws IOException {
-    	showScreenLogIn();
-    	loged = false;
-    }
     
     @FXML
-    void backToPaneFromNewEmployee(ActionEvent event) throws IOException {
-    	if(loged) {
-    		showScreenMenuOption();
-    	}else showScreenRegisterAccount(null);
-    }
-    
-    @FXML
-    void createNewEmployee(ActionEvent event) throws IOException {
+    private void createNewEmployee(ActionEvent event) throws IOException {
     	boolean create = checkForEmptyNewEmployee();
     	boolean created = false;
     	if(create) {
@@ -299,22 +303,203 @@ public class RestaurantManagerGUI {
     	alertCreated.showAndWait();
     }
     
+    private void manageOptionsDisable() {
+		showManageCreateEmployee.setVisible(false);
+		showManageEmployee.setVisible(false);
+    }
+    
+    private void manageAllDisable() {
+		manageEmployee = false;
+		manageClient = false;
+		manageIngredients = false;
+		manageProductTypes = false;
+		manageProducts = false;
+
+    	manageOptionsDisable();
+    }
+    
+    private int objectToManage() {
+    	int choice = 0;
+    	if(manageEmployee) {
+    		choice = 1;
+    	}else if(manageClient) {
+    		choice = 2;
+    	}else if(manageIngredients) {
+    		choice = 3;
+    	}else if(manageProductTypes) {
+    		choice = 4;
+    	}else if(manageProducts) {
+    		choice = 5;
+    	}
+    	return choice;
+    }
+    
+    //Management Employee
     @FXML
-    void showScreenManageClients(ActionEvent event) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("log-in-pane.fxml"));
-    	fxmlLoader.setController(this);
-    	Parent manageClients = fxmlLoader.load();
-    	managementPane.getChildren().clear();
-    	managementPane.setTop(manageClients);
+    private void showManageEmployees(ActionEvent event) {
+    	manageAllDisable();
+    	manageEmployee = true;
+    	showManageObjectOptions.setVisible(true);
+    }
+    
+    @FXML
+    private void showManageCreateObject(ActionEvent event) {
+    	int choice = objectToManage();
+    	switch(choice) {
+    		case 1:
+    	    	manageOptionsDisable();
+    	    	showManageCreateEmployee.setVisible(true);
+    	    	break;
+    	    	/*
+    		case 2:
+    			showManageCreateClient.setVisible(true);
+    			break;
+    		case 3:
+    			showManageCreateIngredients.setVisible(true);
+    			break;
+    		case 4:
+    			showManageCreateProductTypes.setVisible(true);
+    			break;
+    		case 5:
+    			showManageCreateProducts.setVisible(true);
+    			break;
+    			*/
+    	}
     }
 
     @FXML
-    void showScreenManageEmployees(ActionEvent event) {
+    private void manageCreateNewEmployee(ActionEvent event) throws IOException {
+    	boolean created = false;
+    	if(!txtCreateManageEmployeeName.getText().isEmpty() && !txtCreateManageEmployeeLastname.getText().isEmpty() && !txtCreateManageEmployeeIdentification.getText().isEmpty()) {
+    		String name = txtCreateManageEmployeeName.getText();
+    		String lastname = txtCreateManageEmployeeLastname.getText();
+    		long identification = Long.parseLong(txtCreateManageEmployeeIdentification.getText());
+    		created = restaurantManager.createEmployee(name, lastname, identification);
+    		if(created) {
+    			txtCreateManageEmployeeName.setText(null);
+    			txtCreateManageEmployeeLastname.setText(null);
+    			txtCreateManageEmployeeIdentification.setText(null);
+    		}
+    	}
+    }
+    
+    @FXML
+    private void showManageRemoveObject(ActionEvent event) {
+    	int choice = objectToManage();
+    	switch(choice) {
+    		case 1:
+    	    	manageOptionsDisable();
+    	    	showManageEmployee.setVisible(true);
+    	    	break;
+    	    	/*
+    		case 2:
+    			showManageRemoveClient.setVisible(true);
+    			break;
+    		case 3:
+    			showManageRemoveIngredients.setVisible(true);
+    			break;
+    		case 4:
+    			showManageRemoveProductTypes.setVisible(true);
+    			break;
+    		case 5:
+    			showManageRemoveProducts.setVisible(true);
+    			break;
+    			*/
+    	}
+    }
+
+    @FXML
+    private void getEmployeeInfo(ActionEvent event) {
+    	if(txtManageEmployeeIdentification.getValue() != null) {
+    		long identification = txtManageEmployeeIdentification.getValue();
+    		int position = restaurantManager.searchIdentification(identification);
+    		txtManageEmployeeName.setText(restaurantManager.getEmployeeList().get(position).getName());
+    		txtManageEmployeeLastname.setText(restaurantManager.getEmployeeList().get(position).getLastname());
+    	}
+    }
+    
+    @FXML
+    private void manageRemoveEmployee(ActionEvent event) {
+    	if(txtManageEmployeeIdentification.getValue() != null) {
+    		restaurantManager.removeEmployee(txtManageEmployeeIdentification.getValue());
+    		txtManageEmployeeIdentification.setValue(null);
+    		txtManageEmployeeName.setText(null);
+    		txtManageEmployeeLastname.setText(null);
+    	}
+    }
+    
+    @FXML
+    private void initializeEmployeeList(MouseEvent event) {
+    	txtManageEmployeeIdentification.getItems().clear();
+    	for(int i = 0; i<restaurantManager.getEmployeeList().size(); i++) {
+    		long identification = restaurantManager.getEmployeeList().get(i).getIdentification();
+    		if(identification != restaurantManager.getUserLogged().getIdentification()) {
+    			txtManageEmployeeIdentification.getItems().add(identification);
+    		}
+    	}
+    	txtManageEmployeeName.setText(null);
+		txtManageEmployeeLastname.setText(null);
+    }
+
+    @FXML
+    void updateEmployeeLastname(ActionEvent event) {
+
+    }
+
+    @FXML
+    void updateEmployeeName(ActionEvent event) {
 
     }
     
+    @FXML
+    void setEmployeeDisable(ActionEvent event) {
+
+    }
+
+    @FXML
+    void setEmployeeEnable(ActionEvent event) {
+
+    }
+    
+    //Management Client
+    @FXML
+    private void showManageClients(ActionEvent event) throws IOException {
+    	manageAllDisable();
+    	manageClient = true;
+    	showManageObjectOptions.setVisible(true);
+    }
+    
+    //Management Ingredients
+    @FXML
+    private void showManageIngredients(ActionEvent event) {
+    	manageAllDisable();
+    	manageIngredients = true;
+    	showManageObjectOptions.setVisible(true);
+    }
+
+    //Management Product Types
+    @FXML
+    private void showManageProductTypes(ActionEvent event) {
+    	manageAllDisable();
+    	manageProductTypes= true;
+    	showManageObjectOptions.setVisible(true);
+    }
+
+    //Management Products
+    @FXML
+    private void showManageProducts(ActionEvent event) {
+    	manageAllDisable();
+    	manageProducts= true;
+    	showManageObjectOptions.setVisible(true);
+    }
+
+    
 	public RestaurantManagerGUI(RestaurantManager rm){
 		restaurantManager = rm;
-		loged = false;
+		manageEmployee = false;
+		manageClient = false;
+		manageIngredients = false;
+		manageProductTypes = false;
+		manageProducts = false;
 	}
 }

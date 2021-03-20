@@ -7,7 +7,8 @@ public class RestaurantManager {
 	private List<Client> clientList;
 	private List<Employee> employeeList;
 	private List<User> userList;
-	
+	private User userLogged;
+		
 	public RestaurantManager() {
 		clientList = new ArrayList<>();
 		employeeList = new ArrayList<>();
@@ -16,6 +17,19 @@ public class RestaurantManager {
 	
 	public List<Employee> getEmployeeList(){
 		return employeeList;
+	}
+	
+	public User getUserLogged() {
+		return userLogged;
+	}
+	
+	public void setUserLogged(String username) {
+		int position = searchUser(username);
+		userLogged = userList.get(position);
+	}
+	
+	public void setuserLoggedNull() {
+		userLogged = null;
 	}
 	
 	private int searchUser(String username) {
@@ -35,26 +49,21 @@ public class RestaurantManager {
 		return position;
 	}
 	
-	private boolean searchIdentification(long identification, int withList) {
+	public int searchIdentification(long identification) {
 		boolean founded= false;
+		int position = -1;
 		int start = 0;
-		switch(withList) {
-			case 1:
-				int end = employeeList.size();
-				while(employeeList.size()>0 && start <= end && !founded) {
-					int mid = (start+end)/2;
-					if(employeeList.get(mid).getIdentification() == identification) {
-						founded = true;
-					}else if(employeeList.get(mid).getIdentification() > identification){
-						end = mid-1;
-					}else start = mid+1;
-				}
-				break;
-			case 2:
-				//For clients
-				break;
+		int end = employeeList.size();
+		while(employeeList.size()>0 && start <= end && !founded) {
+			int mid = (start+end)/2;
+			if(employeeList.get(mid).getIdentification() == identification) {
+				founded = true;
+				position = mid;
+			}else if(employeeList.get(mid).getIdentification() > identification){
+				end = mid-1;
+			}else start = mid+1;
 		}
-		return founded;
+		return position;
 	}
 	
 	private boolean searchIfEmployeeHaveUser(long identification) {
@@ -83,6 +92,38 @@ public class RestaurantManager {
 		return login;
 	}
 	
+	public boolean createEmployee(String name, String lastname, long identifier) {
+		boolean added = false;
+		if(searchIdentification(identifier)<0) {
+			Employee newEmployee = new Employee(name, lastname, identifier);
+			if(employeeList.isEmpty()) {
+				employeeList.add(newEmployee);
+			}else {
+				int i = 0;
+				for(i = 0; i<employeeList.size() && employeeList.get(i).getIdentification()<identifier; i++);
+				employeeList.add(i, newEmployee);
+			}
+			added = true;
+		}
+		return added;
+	}
+	
+	public boolean removeEmployee(long identifier) {
+		int position = searchIdentification(identifier);
+		employeeList.remove(position);
+		return true;
+	}
+	
+	public void disableEmployee(long identification) {
+		int position = searchIdentification(identification);
+		employeeList.get(position).setDisableState();
+	}
+	
+	public void enableEmployee(long identification) {
+		int position = searchIdentification(identification);
+		employeeList.get(position).setEnableState();
+	}
+	
 	public boolean createUser(String name, String lastname, long identifier, String username,String password) {
 		boolean noCreate = searchIfEmployeeHaveUser(identifier);
 		boolean added = false;
@@ -98,26 +139,6 @@ public class RestaurantManager {
 			added = true;
 		}
 		return added;
-	}
-	
-	public boolean createEmployee(String name, String lastname, long identifier) {
-		boolean added = false;
-		if(!searchIdentification(identifier, 1)) {
-			Employee newEmployee = new Employee(name, lastname, identifier);
-			if(employeeList.isEmpty()) {
-				employeeList.add(newEmployee);
-			}else {
-				int i = 0;
-				for(i = 0; i<employeeList.size() && employeeList.get(i).getIdentification()<identifier; i++);
-				employeeList.add(i, newEmployee);
-			}
-			added = true;
-		}
-		return added;
-	}
-	public void addEmployee(String n, String ln, long id) {
-		Employee newEmployee = new Employee(n, ln, id);
-		employeeList.add(newEmployee);
 	}
 	
 	public void addClient(String n, String ln, String a, long p, String o) {
