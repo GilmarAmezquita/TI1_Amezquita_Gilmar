@@ -47,7 +47,7 @@
                   <Insets bottom="60.0" left="80.0" />
                </GridPane.margin>
             </Label>
-            <ChoiceBox fx:id="txtEmployeeLastnameSignUp" onMousePressed="#selectedNameSignUp" prefWidth="150.0" GridPane.rowIndex="1">
+            <ChoiceBox fx:id="txtEmployeeLastnameSignUp" onMousePressed="#selectLastnameSignUp" prefWidth="150.0" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="60.0" left="150.0" />
                </GridPane.margin>
@@ -57,7 +57,7 @@
                   <Insets left="58.0" />
                </GridPane.margin>
             </Label>
-            <ChoiceBox fx:id="txtEmployeeIdentificationSignUp" onMousePressed="#selectedEmployeeSignUp" prefWidth="150.0" GridPane.rowIndex="1">
+            <ChoiceBox fx:id="txtEmployeeIdentificationSignUp" onMousePressed="#selectIdentificationSignUp" prefWidth="150.0" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="150.0" />
                </GridPane.margin>
