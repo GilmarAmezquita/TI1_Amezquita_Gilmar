@@ -69,25 +69,94 @@ public class RestaurantManagerGUI {
     @FXML
     private TextField txtManageEmployeeState;
 
+    
     @FXML
     private GridPane showManageCreateUser;
     @FXML
+    private ChoiceBox<Long> txtManageCreateUserIdentification;
+    @FXML
+    private ChoiceBox<String> txtManageCreateUserName;
+    @FXML
+    private ChoiceBox<String> txtManageCreateUserLastname;
+    @FXML
+    private TextField txtManageCreateUserUsername;
+    @FXML
+    private PasswordField txtManageCreateUserPassword;
+    @FXML
+    private PasswordField txtManageCreateUserRePassword;
+    @FXML
     private GridPane showManageUser;
+    @FXML
+    private ChoiceBox<String> txtManageUsername;
+    @FXML
+    private TextField txtManageUserIdentification;
+    @FXML
+    private TextField txtManageUserName;
+    @FXML
+    private TextField txtManageUserLastname;
+    @FXML
+    private TextField txtManageUserState;
+    
     
     @FXML
     private GridPane showManageCreateClient;
     @FXML
+    private TextField txtManageCreateClientName;
+    @FXML
+    private TextField txtManageCreateClientLastname;
+    @FXML
+    private TextField txtManageCreateClientIdentification;
+    @FXML
+    private TextField txtManageCreateClientAddress;
+    @FXML
+    private TextField txtManageCreateClientPhone;
+    @FXML
+    private TextField txtManageCreateClientObservations;
+    @FXML
     private GridPane showManageClient;
+    @FXML
+    private ChoiceBox<String> txtManageClientName;
+    @FXML
+    private ChoiceBox<String> txtManageClientLastname;
+    @FXML
+    private TextField txtManageClientIdentification;
+    @FXML
+    private TextField txtManageClientAddress;
+    @FXML
+    private TextField txtManageClientPhone;
+    @FXML
+    private TextField txtManageClientObservations;
+    
     
     @FXML
     private GridPane showManageCreateIngredient;
     @FXML
+    private TextField txtManageCreateIngredientName;
+    @FXML
     private GridPane showManageIngredient;
+    @FXML
+    private ChoiceBox<String> txtManageIngredientName;
+    @FXML
+    private TextField txtManageIngredientNewName;
+    @FXML
+    private TextField txtManageIngredientState;
+    
     
     @FXML
     private GridPane showManageCreateProductTypes;
     @FXML
+    private TextField txtManageCreateProductTypeName;
+    @FXML
     private GridPane showManageProductTypes;
+    @FXML
+    private ChoiceBox<String> txtManageProductTypeName;
+    @FXML
+    private TextField txtManageProductTypeNewName;
+    @FXML
+    private TextField txtManageProductTypeState;
+    @FXML
+    private TextField txtManageProductTypeUses;
+    
     
     @FXML
     private BorderPane managementPane;
@@ -162,7 +231,7 @@ public class RestaurantManagerGUI {
     private void selectNameSignUp(MouseEvent event) {
     	txtEmployeeNameSignUp.getItems().clear();
     	for(int i = 0; i<restaurantManager.getEmployeeList().size(); i++) {
-    		if(!restaurantManager.getEmployeeList().get(i).getIfHaveUser()) {
+    		if(!restaurantManager.getEmployeeList().get(i).getIfHaveUser() && restaurantManager.getEmployeeList().get(i).getState()) {
     			txtEmployeeNameSignUp.getItems().add(restaurantManager.getEmployeeList().get(i).getName());
     		}
     	}
@@ -243,6 +312,7 @@ public class RestaurantManagerGUI {
     	}
     	return create;
     }
+    
     @FXML
     private void createNewEmployee(ActionEvent event) throws IOException {
     	boolean create = checkForEmptyNewEmployee();
@@ -276,7 +346,6 @@ public class RestaurantManagerGUI {
     	return create;
     }
     
-
     private void alertAccount(boolean created, int toDo) throws IOException{
     	Alert alertCreated = new Alert(AlertType.INFORMATION);
     	alertCreated.setHeaderText(null);
@@ -333,7 +402,6 @@ public class RestaurantManagerGUI {
 
     	manageOptionsDisable();
     }
-    
     private int objectToManage() {
     	int choice = 0;
     	if(manageEmployee) {
@@ -509,12 +577,259 @@ public class RestaurantManagerGUI {
     	manageUser = true;
     	showManageObjectOptions.setVisible(true);
     }
+    @FXML
+    private void getNameEmployeeList(MouseEvent event) {
+    	txtManageCreateUserName.getItems().clear();
+    	txtManageCreateUserLastname.getItems().clear();
+    	txtManageCreateUserIdentification.getItems().clear();
+    	for(int i = 0; i<restaurantManager.getEmployeeList().size(); i++) {
+    		if(!restaurantManager.getEmployeeList().get(i).getIfHaveUser()) {
+    			String name = restaurantManager.getEmployeeList().get(i).getName();
+    			txtManageCreateUserName.getItems().add(name);
+    		}
+    	}
+    }
+    @FXML
+    private void getLastnameEmployeeList(MouseEvent event) {
+    	txtManageCreateUserLastname.getItems().clear();
+    	txtManageCreateUserIdentification.getItems().clear();
+    	if(txtManageCreateUserName.getValue() != null) {
+        	String name = txtManageCreateUserName.getValue();
+        	for(int i = 0; i<restaurantManager.getEmployeeList().size(); i++) {
+        		if(name.equals(restaurantManager.getEmployeeList().get(i).getName())) {
+        			String lastname = restaurantManager.getEmployeeList().get(i).getLastname();
+        			txtManageCreateUserLastname.getItems().add(lastname);
+        		}
+        	}
+    	}
+    }
+    @FXML
+    private void getIdentificationEmployeeList(MouseEvent event) {
+    	txtManageCreateUserIdentification.getItems().clear();
+    	if(txtManageCreateUserName.getValue() != null && txtManageCreateUserLastname.getValue() != null) {
+    		String name = txtManageCreateUserName.getValue();
+    		String lastname = txtManageCreateUserLastname.getValue();
+    		for(int i = 0; i<restaurantManager.getEmployeeList().size(); i++) {
+    			if(name.equals(restaurantManager.getEmployeeList().get(i).getName())) {
+    				if(lastname.equals(restaurantManager.getEmployeeList().get(i).getLastname())) {
+    	    			long identification = restaurantManager.getEmployeeList().get(i).getIdentification();
+    	    			txtManageCreateUserIdentification.getItems().add(identification);
+    				}
+    			}
+    		}
+    	}
+    }
+    @FXML
+    private void manageCreateNewUser(ActionEvent event) throws IOException {
+    	if(txtManageCreateUserName.getValue() != null && txtManageCreateUserLastname.getValue() != null) {
+    		if(txtManageCreateUserIdentification.getValue() != null && !txtManageCreateUserUsername.getText().isEmpty()) {
+    			if(!txtManageCreateUserPassword.getText().isEmpty() && !txtManageCreateUserRePassword.getText().isEmpty()) {
+    				String name = txtManageCreateUserName.getValue();
+    				String lastname = txtManageCreateUserLastname.getValue();
+    				long identification = txtManageCreateUserIdentification.getValue();
+    				String username = txtManageCreateUserUsername.getText();
+    				String password = txtManageCreateUserPassword.getText();
+    				if(password.equals(txtManageCreateUserRePassword.getText())) {
+    					boolean created = restaurantManager.createUser(name, lastname, identification, username, password);
+    					if(created) {
+    						txtManageCreateUserName.setValue(null);
+    						txtManageCreateUserLastname.setValue(null);
+    						txtManageCreateUserIdentification.setValue(null);
+    						txtManageCreateUserUsername.setText(null);
+    						txtManageCreateUserPassword.setText(null);
+    						txtManageCreateUserRePassword.setText(null);
+    					}
+    				}
+    			}
+    		}
+    	}
+    }
+    @FXML
+    private void initializeUserList(MouseEvent event) {
+    	txtManageUsername.getItems().clear();
+    	txtManageUserIdentification.setText(null);
+    	txtManageUserName.setText(null);
+    	txtManageUserLastname.setText(null);
+    	txtManageUserState.setText(null);
+    	for(int i = 0; i<restaurantManager.getUserList().size(); i++) {
+    		String username = restaurantManager.getUserList().get(i).getUsername();
+    		if(!username.equals(restaurantManager.getUserLogged().getUsername())){
+    			txtManageUsername.getItems().add(username);
+    		}
+    	}
+    }
+    @FXML
+    private void getUserInfo(ActionEvent event) {
+    	if(txtManageUsername.getValue() != null) {
+    		String username = txtManageUsername.getValue();
+    		int position = restaurantManager.searchUserByUsername(username);
+    		txtManageUserIdentification.setText(""+restaurantManager.getUserList().get(position).getIdentification());
+    		txtManageUserName.setText(restaurantManager.getUserList().get(position).getName());
+    		txtManageUserLastname.setText(restaurantManager.getUserList().get(position).getLastname());
+    		txtManageUserState.setText((restaurantManager.getUserList().get(position).getState())?"Enable":"Disable");
+    	}
+    }
+    @FXML
+    private void updateUserName(ActionEvent event) {
+    	if(!txtManageUserName.getText().isEmpty() && !txtManageUserIdentification.getText().isEmpty()) {
+    		long identification = Long.parseLong(txtManageUserIdentification.getText());
+    		String newName = txtManageUserName.getText();
+    		restaurantManager.updateEmployeeName(identification, newName);
+    	}
+    }
+    @FXML
+    private void updateUserLastname(ActionEvent event) {
+    	if(!txtManageUserLastname.getText().isEmpty() && !txtManageUserIdentification.getText().isEmpty()) {
+    		long identification = Long.parseLong(txtManageUserIdentification.getText());
+    		String newLastname = txtManageUserLastname.getText();
+    		restaurantManager.updateEmployeeLastname(identification, newLastname);
+    	}
+    }
+    @FXML
+    private void manageRemoveUser(ActionEvent event) {
+    	if(!txtManageUserIdentification.getText().isEmpty()) {
+    		long identification = Long.parseLong(txtManageUserIdentification.getText());
+    		restaurantManager.removeUser(identification);
+    	}
+    }
+    @FXML
+    private void setUserDisable(ActionEvent event) {
+    	if(!txtManageUserIdentification.getText().isEmpty()) {
+    		long identification = Long.parseLong(txtManageUserIdentification.getText());
+    		restaurantManager.disableUser(identification);
+    		txtManageUserState.setText("Disable");
+    	}
+    }
+    @FXML
+    private void setUserEnable(ActionEvent event) {
+    	if(!txtManageUserIdentification.getText().isEmpty()) {
+    		long identification = Long.parseLong(txtManageUserIdentification.getText());
+    		restaurantManager.enableUser(identification);
+    		txtManageUserState.setText("enable");
+    	}
+    }
+    
     //Management Client
     @FXML
     private void showManageClients(ActionEvent event) throws IOException {
     	manageAllDisable();
     	manageClient = true;
     	showManageObjectOptions.setVisible(true);
+    }
+    @FXML
+    private void manageCreateNewClient(ActionEvent event) {
+    	if(!txtManageCreateClientName.getText().isEmpty() && !txtManageCreateClientLastname.getText().isEmpty()) {
+    		if(!txtManageCreateClientAddress.getText().isEmpty() && !txtManageCreateClientPhone.getText().isEmpty()) {
+    			String name = txtManageCreateClientName.getText();
+    			String lastname = txtManageCreateClientLastname.getText();
+    			long identification = (!txtManageCreateClientIdentification.getText().isEmpty())?Long.parseLong(txtManageCreateClientIdentification.getText()):0;
+    			String address = txtManageCreateClientAddress.getText();
+    			long phone = Long.parseLong(txtManageCreateClientIdentification.getText());
+    			String observations = txtManageCreateClientObservations.getText();
+    			restaurantManager.createClient(name, lastname, identification, address, phone, observations);
+    			txtManageCreateClientName.setText(null);
+    			txtManageCreateClientLastname.setText(null);
+    			txtManageCreateClientIdentification.setText(null);
+    			txtManageCreateClientAddress.setText(null);
+    			txtManageCreateClientPhone.setText(null);
+    			txtManageCreateClientObservations.setText(null);
+    		}
+    		
+    	}
+    }
+    @FXML
+    private void initializeClientListName(MouseEvent event) {
+    	txtManageClientName.getItems().clear();
+    	txtManageClientLastname.setValue(null);
+    	txtManageClientIdentification.setText(null);
+    	txtManageClientAddress.setText(null);
+    	txtManageClientPhone.setText(null);
+    	txtManageClientObservations.setText(null);
+    	for(int i = 0; i<restaurantManager.getClientList().size(); i++) {
+    		String name = restaurantManager.getClientList().get(i).getName();
+    		txtManageClientName.getItems().add(name);
+    	}
+    }
+    @FXML
+    private void initializeClientListLastname(MouseEvent event) {
+    	txtManageClientLastname.getItems().clear();
+    	if(txtManageClientName.getValue() != null) {
+        	txtManageClientIdentification.setText(null);
+        	txtManageClientAddress.setText(null);
+        	txtManageClientPhone.setText(null);
+        	txtManageClientObservations.setText(null);
+        	for(int i = 0; i<restaurantManager.getClientList().size(); i++) {
+        		String name = txtManageClientName.getValue();
+        		if(name.equals(restaurantManager.getClientList().get(i).getName())) {
+        			String lastname = restaurantManager.getClientList().get(i).getLastname();
+        			txtManageClientLastname.getItems().add(lastname);
+        		}
+        	}
+    	}
+    }
+    @FXML
+    private void getClientInfo(ActionEvent event) {
+    	if(txtManageClientName.getValue() != null && txtManageClientLastname.getValue() != null) {
+    		String name = txtManageClientName.getValue();
+    		String lastname = txtManageClientLastname.getValue();
+    		int position = restaurantManager.searchClientByName(name, lastname);
+    		txtManageClientIdentification.setText(""+restaurantManager.getClientList().get(position).getIdentification());
+    		txtManageClientAddress.setText(restaurantManager.getClientList().get(position).getAddress());
+    		txtManageClientPhone.setText(""+restaurantManager.getClientList().get(position).getPhone());
+    		txtManageClientObservations.setText(restaurantManager.getClientList().get(position).getObservations());
+    	}
+    }
+    @FXML
+    private void updateClientAddress(ActionEvent event) {
+    	if(txtManageClientName.getValue() != null && txtManageClientLastname.getValue() != null && !txtManageClientAddress.getText().isEmpty()) {
+    		String name = txtManageClientName.getValue();
+    		String lastname = txtManageClientLastname.getValue();
+    		String address = txtManageClientAddress.getText();
+    		restaurantManager.updateClientAddress(name, lastname, address);
+    		
+    	}
+    }
+    @FXML
+    private void updateClientPhone(ActionEvent event) {
+    	if(txtManageClientName.getValue() != null && txtManageClientLastname.getValue() != null && !txtManageClientPhone.getText().isEmpty()) {
+    		String name = txtManageClientName.getValue();
+    		String lastname = txtManageClientLastname.getValue();
+    		long phone = Long.parseLong(txtManageClientPhone.getText());
+    		restaurantManager.updateClientPhone(name, lastname, phone);
+    	}
+    }
+    @FXML
+    private void updateClientObservations(ActionEvent event) {
+    	if(txtManageClientName.getValue() != null && txtManageClientLastname.getValue() != null && !txtManageClientObservations.getText().isEmpty()) {
+    		String name = txtManageClientName.getValue();
+    		String lastname = txtManageClientLastname.getValue();
+    		String observations = txtManageClientObservations.getText();
+    		restaurantManager.updateClientObservations(name, lastname, observations);
+    	}
+    }
+    @FXML
+    private void manageRemoveClient(ActionEvent event) {
+    	if(txtManageClientName.getValue() != null && txtManageClientLastname.getValue() != null) {
+    		String name = txtManageClientName.getValue();
+    		String lastname = txtManageClientLastname.getValue();
+    		restaurantManager.removeClient(name, lastname);
+    	}
+    }
+    @FXML
+    private void setClientEnable(ActionEvent event) {
+    	if(txtManageClientName.getValue() != null && txtManageClientLastname.getValue() != null) {
+    		String name = txtManageClientName.getValue();
+    		String lastname = txtManageClientLastname.getValue();
+    		restaurantManager.enableClient(name, lastname);
+    	}
+    }
+    @FXML
+    private void setClientDisable(ActionEvent event) {
+    	if(txtManageClientName.getValue() != null && txtManageClientLastname.getValue() != null) {
+    		String name = txtManageClientName.getValue();
+    		String lastname = txtManageClientLastname.getValue();
+    		restaurantManager.disableClient(name, lastname);
+    	}
     }
     
     //Management Ingredients
@@ -524,6 +839,63 @@ public class RestaurantManagerGUI {
     	manageIngredients = true;
     	showManageObjectOptions.setVisible(true);
     }
+    @FXML
+    private void manageCreateNewIngredient(ActionEvent event) {
+    	if(!txtManageCreateIngredientName.getText().isEmpty()) {
+    		String name = txtManageCreateIngredientName.getText();
+    		boolean created = restaurantManager.createIngredient(name);
+    		if(created) {
+    			txtManageCreateIngredientName.setText(null);
+    		}
+    	}
+    }
+    @FXML
+    private void initializeIngredientList(MouseEvent event) {
+    	txtManageIngredientName.getItems().clear();
+		txtManageIngredientNewName.setText(null);
+		txtManageIngredientState.setText(null);
+    	for(int i = 0; i<restaurantManager.getIngredientList().size(); i++) {
+    		String name = restaurantManager.getIngredientList().get(i).getName();
+    		txtManageIngredientName.getItems().add(name);
+    	}
+    }
+    @FXML
+    private void updateIngredientName(ActionEvent event) {
+    	if(txtManageIngredientName.getValue() != null && !txtManageIngredientNewName.getText().isEmpty()) {
+    		String name = txtManageIngredientName.getValue();
+    		String newName = txtManageIngredientNewName.getText();
+    		boolean updated = restaurantManager.updateIngredientName(name, newName);
+    		if(updated) {
+    			txtManageIngredientName.setValue(newName);
+    		}
+    	}
+    }
+    @FXML
+    private void manageRemoveIngredient(ActionEvent event) {
+    	if(txtManageIngredientName.getValue() != null) {
+    		String name = txtManageIngredientName.getValue();
+    		boolean removed = restaurantManager.removeIngredient(name);
+    		if(removed) {
+    			txtManageIngredientName.setValue(null);
+    			txtManageIngredientNewName.setText(null);
+    			txtManageIngredientState.setText(null);
+    		}
+    	}
+    }
+    @FXML
+    private void setIngredientEnable(ActionEvent event) {
+    	if(txtManageIngredientName.getValue() != null) {
+    		String name = txtManageIngredientName.getValue();
+    		restaurantManager.enableIngredient(name);
+    	}
+    }
+    @FXML
+    private void setIngredientDisable(ActionEvent event) {
+    	if(txtManageIngredientName.getValue() != null) {
+    		String name = txtManageIngredientName.getValue();
+    		restaurantManager.disableIngredient(name);
+    	}
+    }
 
     //Management Product Types
     @FXML
@@ -531,6 +903,73 @@ public class RestaurantManagerGUI {
     	manageAllDisable();
     	manageProductTypes= true;
     	showManageObjectOptions.setVisible(true);
+    }
+    @FXML
+    private void manageCreateNewProductTypes(ActionEvent event) {
+    	if(!txtManageCreateProductTypeName.getText().isEmpty()) {
+    		String name = txtManageCreateProductTypeName.getText();
+    		boolean created = restaurantManager.createProductTypes(name);
+    		if(created) {
+    			txtManageCreateProductTypeName.setText(null);
+    		}
+    	}
+    }
+    @FXML
+    private void initializeProductTypesList(MouseEvent event) {
+    	txtManageProductTypeName.getItems().clear();
+    	txtManageProductTypeNewName.setText(null);
+    	txtManageProductTypeState.setText(null);
+    	for(int i = 0; i<restaurantManager.getProductTypesList().size(); i++) {
+    		String name = restaurantManager.getProductTypesList().get(i).getName();
+    		txtManageProductTypeName.getItems().add(name);
+    	}
+    }
+    @FXML
+    private void getProductTypeInfo(ActionEvent event) {
+    	if(txtManageProductTypeName.getValue() != null) {
+    		String name = txtManageProductTypeName.getValue();
+    		int position = restaurantManager.searchProductTypes(name);
+    		txtManageProductTypeState.setText((restaurantManager.getProductTypesList().get(position).getState())?"Enable":"Disable");
+    		txtManageProductTypeUses.setText(""+restaurantManager.getProductTypesList().get(position).getUses());
+    	}
+    }
+    @FXML
+    private void updateProductTypeName(ActionEvent event){
+    	if(txtManageProductTypeName.getValue() != null && !txtManageProductTypeNewName.getText().isEmpty()) {
+    		String name = txtManageProductTypeName.getValue();
+    		String newName = txtManageProductTypeNewName.getText();
+    		boolean updated = restaurantManager.updateProductTypesName(name, newName);
+    		if(updated) {
+    			txtManageProductTypeName.setValue(newName);
+    		}
+    	}
+    }
+    @FXML
+    private void manageRemoveProductType(ActionEvent event) {
+    	if(txtManageProductTypeName.getValue() != null) {
+    		String name = txtManageProductTypeName.getValue();
+    		boolean removed = restaurantManager.removeProductTypes(name);
+    		if(removed) {
+    			txtManageProductTypeName.setValue(null);
+    			txtManageProductTypeNewName.setText(null);
+    			txtManageProductTypeState.setText(null);
+    			txtManageProductTypeUses.setText(null);
+    		}
+    	}
+    }
+    @FXML
+    private void setProductTypeEnable(ActionEvent event) {
+    	if(txtManageProductTypeName.getValue() != null) {
+    		String name = txtManageProductTypeName.getValue();
+    		restaurantManager.enableProductType(name);
+    	}
+    }
+    @FXML
+    private void setProductTypeDisable(ActionEvent event) {
+    	if(txtManageProductTypeName.getValue() != null) {
+    		String name = txtManageProductTypeName.getValue();
+    		restaurantManager.disableProductTypes(name);
+    	}
     }
 
     //Management Products

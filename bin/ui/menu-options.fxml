@@ -249,17 +249,17 @@
                                     </Label>
                                     <Label text="Identification:">
                                        <GridPane.margin>
-                                          <Insets bottom="200.0" left="50.0" />
+                                          <Insets bottom="40.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
                                     <Label text="Name:">
                                        <GridPane.margin>
-                                          <Insets bottom="120.0" left="50.0" />
+                                          <Insets bottom="200.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
                                     <Label text="Lastname:">
                                        <GridPane.margin>
-                                          <Insets bottom="40.0" left="50.0" />
+                                          <Insets bottom="120.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
                                     <Label text="Username:">
@@ -280,37 +280,37 @@
                                           <Insets top="200.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Button mnemonicParsing="false" text="Create" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#manageCreateNewUser" text="Create" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <ChoiceBox prefWidth="150.0">
-                                       <GridPane.margin>
-                                          <Insets bottom="200.0" left="130.0" />
-                                       </GridPane.margin>
-                                    </ChoiceBox>
-                                    <ChoiceBox prefWidth="150.0">
-                                       <GridPane.margin>
-                                          <Insets bottom="120.0" left="130.0" />
-                                       </GridPane.margin>
-                                    </ChoiceBox>
-                                    <ChoiceBox prefWidth="150.0">
+                                    <ChoiceBox fx:id="txtManageCreateUserIdentification" onMousePressed="#getIdentificationEmployeeList" prefWidth="150.0">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" left="130.0" />
                                        </GridPane.margin>
                                     </ChoiceBox>
-                                    <TextField>
+                                    <ChoiceBox fx:id="txtManageCreateUserName" onMousePressed="#getNameEmployeeList" prefWidth="150.0">
+                                       <GridPane.margin>
+                                          <Insets bottom="200.0" left="130.0" />
+                                       </GridPane.margin>
+                                    </ChoiceBox>
+                                    <ChoiceBox fx:id="txtManageCreateUserLastname" onMousePressed="#getLastnameEmployeeList" prefWidth="150.0">
+                                       <GridPane.margin>
+                                          <Insets bottom="120.0" left="130.0" />
+                                       </GridPane.margin>
+                                    </ChoiceBox>
+                                    <TextField fx:id="txtManageCreateUserUsername">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="40.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <PasswordField>
+                                    <PasswordField fx:id="txtManageCreateUserPassword">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="120.0" />
                                        </GridPane.margin>
                                     </PasswordField>
-                                    <PasswordField>
+                                    <PasswordField fx:id="txtManageCreateUserRePassword">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="200.0" />
                                        </GridPane.margin>
@@ -338,7 +338,7 @@
                                           <Insets bottom="200.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <ChoiceBox prefWidth="150.0">
+                                    <ChoiceBox fx:id="txtManageUsername" onMousePressed="#initializeUserList" prefWidth="150.0">
                                        <GridPane.margin>
                                           <Insets bottom="200.0" left="130.0" />
                                        </GridPane.margin>
@@ -348,7 +348,7 @@
                                           <Insets bottom="120.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField editable="false">
+                                    <TextField fx:id="txtManageUserIdentification" editable="false">
                                        <GridPane.margin>
                                           <Insets bottom="120.0" left="130.0" right="80.0" />
                                        </GridPane.margin>
@@ -358,12 +358,12 @@
                                           <Insets bottom="40.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageUserName">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" left="130.0" right="80.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Update" GridPane.halignment="RIGHT">
+                                    <Button mnemonicParsing="false" onAction="#updateUserName" text="Update" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" right="20.0" />
                                        </GridPane.margin>
@@ -373,12 +373,12 @@
                                           <Insets left="50.0" top="40.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageUserLastname">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="40.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Update" GridPane.halignment="RIGHT">
+                                    <Button mnemonicParsing="false" onAction="#updateUserLastname" text="Update" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
                                           <Insets right="20.0" top="40.0" />
                                        </GridPane.margin>
@@ -388,29 +388,34 @@
                                           <Insets left="50.0" top="120.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageUserState">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="120.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Enable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#setUserEnable" text="Enable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" right="80.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Disable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#setUserDisable" text="Disable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" left="80.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Remove" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#manageRemoveUser" text="Remove" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" />
                                        </GridPane.margin>
                                     </Button>
+                                    <Button mnemonicParsing="false" onAction="#getUserInfo" text="Get info" GridPane.halignment="RIGHT">
+                                       <GridPane.margin>
+                                          <Insets bottom="200.0" right="20.0" />
+                                       </GridPane.margin>
+                                    </Button>
                                  </children>
                               </GridPane>
-                              <GridPane fx:id="showManageCreateClient" visible="false">
+                              <GridPane fx:id="showManageCreateClient" gridLinesVisible="true" visible="false">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
@@ -431,7 +436,7 @@
                                           <Insets bottom="200.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageCreateClientName">
                                        <GridPane.margin>
                                           <Insets bottom="200.0" left="130.0" right="80.0" />
                                        </GridPane.margin>
@@ -441,7 +446,7 @@
                                           <Insets bottom="120.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageCreateClientLastname">
                                        <GridPane.margin>
                                           <Insets bottom="120.0" left="130.0" right="80.0" />
                                        </GridPane.margin>
@@ -451,7 +456,7 @@
                                           <Insets bottom="40.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageCreateClientIdentification">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" left="130.0" right="80.0" />
                                        </GridPane.margin>
@@ -461,7 +466,7 @@
                                           <Insets left="50.0" top="40.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageCreateClientAddress">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="40.0" />
                                        </GridPane.margin>
@@ -471,7 +476,7 @@
                                           <Insets left="50.0" top="120.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageCreateClientPhone">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="120.0" />
                                        </GridPane.margin>
@@ -481,12 +486,12 @@
                                           <Insets left="50.0" top="200.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageCreateClientObservations">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="200.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Create" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#manageCreateNewClient" text="Create" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" />
                                        </GridPane.margin>
@@ -514,7 +519,7 @@
                                           <Insets bottom="200.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <ChoiceBox prefWidth="150.0">
+                                    <ChoiceBox fx:id="txtManageClientName" onMousePressed="#initializeClientListName" prefWidth="150.0">
                                        <GridPane.margin>
                                           <Insets bottom="200.0" left="130.0" />
                                        </GridPane.margin>
@@ -524,7 +529,7 @@
                                           <Insets bottom="120.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <ChoiceBox prefWidth="150.0">
+                                    <ChoiceBox fx:id="txtManageClientLastname" onMousePressed="#initializeClientListLastname" prefWidth="150.0">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -537,14 +542,14 @@
                                           <Insets bottom="40.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageClientIdentification">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" left="130.0" right="80.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Get Info" GridPane.halignment="RIGHT">
+                                    <Button mnemonicParsing="false" onAction="#getClientInfo" text="Get Info" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
-                                          <Insets bottom="40.0" right="10.0" />
+                                          <Insets bottom="120.0" right="10.0" />
                                        </GridPane.margin>
                                     </Button>
                                     <Label text="Addres:">
@@ -552,7 +557,7 @@
                                           <Insets left="50.0" top="40.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageClientAddress">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="40.0" />
                                        </GridPane.margin>
@@ -562,17 +567,17 @@
                                           <Insets left="50.0" top="120.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Button mnemonicParsing="false" text="Update" GridPane.halignment="RIGHT">
+                                    <Button mnemonicParsing="false" onAction="#updateClientAddress" text="Update" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
                                           <Insets right="10.0" top="40.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <TextField>
+                                    <TextField fx:id="txtManageClientPhone">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="120.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Update" GridPane.halignment="RIGHT">
+                                    <Button mnemonicParsing="false" onAction="#updateClientPhone" text="Update" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
                                           <Insets right="10.0" top="120.0" />
                                        </GridPane.margin>
@@ -582,27 +587,27 @@
                                           <Insets left="50.0" top="200.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageClientObservations">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="200.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Update" GridPane.halignment="RIGHT">
+                                    <Button mnemonicParsing="false" onAction="#updateClientObservations" text="Update" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
                                           <Insets right="10.0" top="200.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Enable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#setClientEnable" text="Enable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" right="160.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Disable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#setClientDisable" text="Disable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Remove" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#manageRemoveClient" text="Remove" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" left="160.0" />
                                        </GridPane.margin>
@@ -630,12 +635,12 @@
                                           <Insets bottom="120.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageCreateIngredientName">
                                        <GridPane.margin>
                                           <Insets bottom="120.0" left="130.0" right="80.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Create" GridPane.halignment="CENTER" />
+                                    <Button mnemonicParsing="false" onAction="#manageCreateNewIngredient" text="Create" GridPane.halignment="CENTER" />
                                  </children>
                               </GridPane>
                               <GridPane fx:id="showManageIngredient" gridLinesVisible="true" visible="false">
@@ -659,7 +664,7 @@
                                           <Insets bottom="120.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <ChoiceBox prefWidth="150.0">
+                                    <ChoiceBox fx:id="txtManageIngredientName" onMousePressed="#initializeIngredientList" prefWidth="150.0">
                                        <GridPane.margin>
                                           <Insets bottom="120.0" left="130.0" />
                                        </GridPane.margin>
@@ -669,27 +674,27 @@
                                           <Insets left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageIngredientNewName">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Enable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#setIngredientEnable" text="Enable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" right="80.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Button" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#setIngredientDisable" text="Button" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" left="80.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Remove" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#manageRemoveIngredient" text="Remove" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Update" GridPane.halignment="RIGHT">
+                                    <Button mnemonicParsing="false" onAction="#updateIngredientName" text="Update" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
                                           <Insets right="10.0" />
                                        </GridPane.margin>
@@ -699,7 +704,7 @@
                                           <Insets left="50.0" top="120.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField editable="false">
+                                    <TextField fx:id="txtManageIngredientState" editable="false">
                                        <GridPane.margin>
                                           <Insets left="130.0" right="80.0" top="120.0" />
                                        </GridPane.margin>
@@ -727,12 +732,12 @@
                                           <Insets bottom="120.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageCreateProductTypeName">
                                        <GridPane.margin>
                                           <Insets bottom="120.0" left="130.0" right="80.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Create" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                    <Button mnemonicParsing="false" onAction="#manageCreateNewProductTypes" text="Create" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
@@ -757,52 +762,67 @@
                                     </Label>
                                     <Label text="Product Type:">
                                        <GridPane.margin>
-                                          <Insets bottom="120.0" left="50.0" />
+                                          <Insets bottom="200.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <ChoiceBox prefWidth="150.0">
+                                    <ChoiceBox fx:id="txtManageProductTypeName" onMousePressed="#initializeProductTypesList" prefWidth="150.0">
                                        <GridPane.margin>
-                                          <Insets bottom="120.0" left="130.0" />
+                                          <Insets bottom="200.0" left="130.0" />
                                        </GridPane.margin>
                                     </ChoiceBox>
                                     <Label text="New name:">
                                        <GridPane.margin>
-                                          <Insets left="50.0" />
+                                          <Insets bottom="100.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="txtManageProductTypeNewName">
                                        <GridPane.margin>
-                                          <Insets left="130.0" right="80.0" />
+                                          <Insets bottom="100.0" left="130.0" right="80.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Update" GridPane.halignment="RIGHT">
+                                    <Button mnemonicParsing="false" onAction="#updateProductTypeName" text="Update" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
-                                          <Insets right="10.0" />
+                                          <Insets bottom="100.0" right="10.0" />
                                        </GridPane.margin>
                                     </Button>
                                     <Label text="State:">
                                        <GridPane.margin>
-                                          <Insets left="50.0" top="120.0" />
+                                          <Insets left="50.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField editable="false">
+                                    <TextField fx:id="txtManageProductTypeState" editable="false">
                                        <GridPane.margin>
-                                          <Insets left="130.0" right="80.0" top="120.0" />
+                                          <Insets left="130.0" right="80.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button mnemonicParsing="false" text="Enable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#setProductTypeEnable" text="Enable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" right="80.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Disable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#setProductTypeDisable" text="Disable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="40.0" left="80.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" text="Remove" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Button mnemonicParsing="false" onAction="#manageRemoveProductType" text="Remove" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Label text="Products:">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" top="100.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="txtManageProductTypeUses" editable="false">
+                                       <GridPane.margin>
+                                          <Insets left="130.0" right="80.0" top="100.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" onAction="#getProductTypeInfo" text="Get info" GridPane.halignment="RIGHT">
+                                       <GridPane.margin>
+                                          <Insets bottom="200.0" right="10.0" />
                                        </GridPane.margin>
                                     </Button>
                                  </children>

@@ -5,13 +5,7 @@ public abstract class Person {
 	private String name;
 	private String lastname;
 	private boolean state;
-	
-	public Person(String n, String ln) {
-		name = n;
-		lastname = ln;
-		identification = 0;
-		state = true;
-	}
+
 	public Person(String n, String ln, long id) {
 		name = n;
 		lastname = ln;
