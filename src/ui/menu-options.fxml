@@ -661,22 +661,22 @@
                                     </Label>
                                     <Label text="Ingredient:">
                                        <GridPane.margin>
-                                          <Insets bottom="120.0" left="50.0" />
+                                          <Insets bottom="200.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
                                     <ChoiceBox fx:id="txtManageIngredientName" onMousePressed="#initializeIngredientList" prefWidth="150.0">
                                        <GridPane.margin>
-                                          <Insets bottom="120.0" left="130.0" />
+                                          <Insets bottom="200.0" left="130.0" />
                                        </GridPane.margin>
                                     </ChoiceBox>
                                     <Label text="New name:">
                                        <GridPane.margin>
-                                          <Insets left="50.0" />
+                                          <Insets bottom="100.0" left="50.0" />
                                        </GridPane.margin>
                                     </Label>
                                     <TextField fx:id="txtManageIngredientNewName">
                                        <GridPane.margin>
-                                          <Insets left="130.0" right="80.0" />
+                                          <Insets bottom="100.0" left="130.0" right="80.0" />
                                        </GridPane.margin>
                                     </TextField>
                                     <Button mnemonicParsing="false" onAction="#setIngredientEnable" text="Enable" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
@@ -696,17 +696,32 @@
                                     </Button>
                                     <Button mnemonicParsing="false" onAction="#updateIngredientName" text="Update" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
-                                          <Insets right="10.0" />
+                                          <Insets bottom="100.0" right="10.0" />
                                        </GridPane.margin>
                                     </Button>
                                     <Label text="State:">
                                        <GridPane.margin>
-                                          <Insets left="50.0" top="120.0" />
+                                          <Insets left="50.0" />
                                        </GridPane.margin>
                                     </Label>
                                     <TextField fx:id="txtManageIngredientState" editable="false">
                                        <GridPane.margin>
-                                          <Insets left="130.0" right="80.0" top="120.0" />
+                                          <Insets left="130.0" right="80.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" onAction="#getIngredientInfo" text="Get info" GridPane.halignment="RIGHT">
+                                       <GridPane.margin>
+                                          <Insets bottom="200.0" right="10.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Label text="Products:">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" top="100.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="txtManageIngredientUses" editable="false">
+                                       <GridPane.margin>
+                                          <Insets left="130.0" right="80.0" top="100.0" />
                                        </GridPane.margin>
                                     </TextField>
                                  </children>
@@ -826,6 +841,102 @@
                                        </GridPane.margin>
                                     </Button>
                                  </children>
+                              </GridPane>
+                              <GridPane fx:id="showManageCreateProduct" gridLinesVisible="true">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Create Product" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                       <font>
+                                          <Font name="System Bold Italic" size="16.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets top="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Name:">
+                                       <GridPane.margin>
+                                          <Insets bottom="200.0" left="50.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField>
+                                       <GridPane.margin>
+                                          <Insets bottom="200.0" left="130.0" right="80.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Label text="Product Type:">
+                                       <GridPane.margin>
+                                          <Insets bottom="120.0" left="50.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ChoiceBox prefWidth="150.0">
+                                       <GridPane.margin>
+                                          <Insets bottom="120.0" left="130.0" />
+                                       </GridPane.margin>
+                                    </ChoiceBox>
+                                    <Label text="Ingredients:">
+                                       <GridPane.margin>
+                                          <Insets bottom="40.0" left="50.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField editable="false">
+                                       <GridPane.margin>
+                                          <Insets bottom="40.0" left="130.0" right="80.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Label text="Add Ingredient:">
+                                       <GridPane.margin>
+                                          <Insets left="40.0" top="40.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ChoiceBox prefWidth="150.0">
+                                       <GridPane.margin>
+                                          <Insets left="130.0" top="40.0" />
+                                       </GridPane.margin>
+                                    </ChoiceBox>
+                                    <Button mnemonicParsing="false" text="Add Ingredient" GridPane.halignment="RIGHT">
+                                       <GridPane.margin>
+                                          <Insets right="10.0" top="40.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Label text="Size:">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" top="120.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Price:">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" top="200.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField>
+                                       <GridPane.margin>
+                                          <Insets left="130.0" right="80.0" top="120.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <TextField>
+                                       <GridPane.margin>
+                                          <Insets left="130.0" right="80.0" top="200.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" text="Create" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                       <GridPane.margin>
+                                          <Insets bottom="10.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                 </children>
+                              </GridPane>
+                              <GridPane fx:id="showManageProduct" gridLinesVisible="true" visible="false">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
                               </GridPane>
                            </children>
                         </GridPane>

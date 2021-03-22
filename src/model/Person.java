@@ -5,12 +5,16 @@ public abstract class Person {
 	private String name;
 	private String lastname;
 	private boolean state;
+	private User whoCreate;
+	private User lastEdit;
 
-	public Person(String n, String ln, long id) {
+	public Person(String n, String ln, long id, User creator) {
 		name = n;
 		lastname = ln;
 		identification = id;
 		state = true;
+		whoCreate = creator;
+		lastEdit = null;
 	}
 	public long getIdentification() {
 		return identification;
@@ -35,5 +39,14 @@ public abstract class Person {
 	}
 	public void setEnableState() {
 		state = true;
+	}
+	public User getCreater() {
+		return whoCreate;
+	}
+	public User getLastEditor() {
+		return lastEdit;
+	}
+	public void setLastEditor(User lastEditor) {
+		lastEdit = lastEditor;
 	}
 }

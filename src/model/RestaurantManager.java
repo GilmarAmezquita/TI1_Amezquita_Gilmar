@@ -11,6 +11,7 @@ public class RestaurantManager {
 	private List<Client> clientList;
 	private List<Ingredient> ingredientList;
 	private List<ProductTypes> productTypesList;
+	private List<Product> productList;
 	private User userLogged;
 		
 	public RestaurantManager() {
@@ -172,6 +173,22 @@ public class RestaurantManager {
 		}
 		return position;
 	}
+	public int searchProduct(String name) {
+		boolean founded = false;
+		int position = -1;
+		int start = 0;
+		int end = productList.size();
+		while(productList.size()>0 && start <= end && !founded) {
+			int mid = (start+end)/2;
+			if(productList.get(mid).getName().compareTo(name) == 0) {
+				position = mid;
+				founded = true;
+			}else if(productList.get(mid).getName().compareTo(name)>0) {
+				end = mid-1;
+			}else start = mid+1;
+		}
+		return position;
+	}
 	
 	public boolean userLogIn(String username, String password) {
 		boolean login = false;
@@ -189,7 +206,7 @@ public class RestaurantManager {
 	public boolean createEmployee(String name, String lastname, long identifier) {
 		boolean added = false;
 		if(searchEmployeeByIdentification(identifier)<0) {
-			Employee newEmployee = new Employee(name, lastname, identifier);
+			Employee newEmployee = new Employee(name, lastname, identifier, userLogged);
 			if(employeeList.isEmpty()) {
 				employeeList.add(newEmployee);
 			}else {
@@ -204,6 +221,7 @@ public class RestaurantManager {
 	public void updateEmployeeName(long identification, String newName) {
 		int position = searchEmployeeByIdentification(identification);
 		employeeList.get(position).replaceName(newName);
+		employeeList.get(position).setLastEditor(userLogged);
 		if(employeeList.get(position).getIfHaveUser()) {
 			updateUserName(identification, newName);
 		}
@@ -211,6 +229,7 @@ public class RestaurantManager {
 	public void updateEmployeeLastname(long identification, String newLastname) {
 		int position = searchEmployeeByIdentification(identification);
 		employeeList.get(position).replaceLastname(newLastname);
+		employeeList.get(position).setLastEditor(userLogged);
 		if(employeeList.get(position).getIfHaveUser()) {
 			updateUserLastname(identification, newLastname);
 		}
@@ -225,6 +244,7 @@ public class RestaurantManager {
 	public void disableEmployee(long identification) {
 		int position = searchEmployeeByIdentification(identification);
 		employeeList.get(position).setDisableState();
+		employeeList.get(position).setLastEditor(userLogged);
 		if(employeeList.get(position).getIfHaveUser()) {
 			disableUser(identification);
 		}
@@ -232,6 +252,7 @@ public class RestaurantManager {
 	public void enableEmployee(long identification) {
 		int position = searchEmployeeByIdentification(identification);
 		employeeList.get(position).setEnableState();
+		employeeList.get(position).setLastEditor(userLogged);
 		if(employeeList.get(position).getIfHaveUser()) {
 			enableUser(identification);
 		}
@@ -241,7 +262,7 @@ public class RestaurantManager {
 		boolean noCreate = employeeList.get(searchEmployeeByIdentification(identifier)).getIfHaveUser();
 		boolean added = false;
 		if(searchUserByUsername(username) < 0 && !noCreate) {
-			User newUser = new User(name, lastname, identifier, username, password);
+			User newUser = new User(name, lastname, identifier, userLogged, username, password);
 			if(userList.isEmpty()) {
 				userList.add(newUser);
 				employeeList.get(0).setHaveUserTrue();
@@ -258,28 +279,33 @@ public class RestaurantManager {
 	public void updateUserName(long identification, String newName) {
 		int position = searchUserByIdentification(identification);
 		userList.get(position).replaceName(newName);
+		userList.get(position).setLastEditor(userLogged);
 	}
 	public void updateUserLastname(long identification, String newLastname) {
 		int position = searchUserByIdentification(identification);
 		userList.get(position).replaceLastname(newLastname);
+		userList.get(position).setLastEditor(userLogged);
 	}
 	public void removeUser(long identification) {
 		int position = searchUserByIdentification(identification);
 		int employeePosition = searchEmployeeByIdentification(identification);
 		employeeList.get(employeePosition).setHaveUserFalse();
+		employeeList.get(employeePosition).setLastEditor(userLogged);
 		userList.remove(position);
 	}
 	public void disableUser(long identification) {
 		int position = searchUserByIdentification(identification);
 		userList.get(position).setDisableState();
+		userList.get(position).setLastEditor(userLogged);
 	}
 	public void enableUser(long identification) {
 		int position = searchUserByIdentification(identification);
 		userList.get(position).setEnableState();
+		userList.get(position).setLastEditor(userLogged);
 	}
 	
 	public void createClient(String name, String lastname, long identification,String address, long phone, String observations) {
-		Client newClient = new Client(name, lastname, identification,address, phone, observations);
+		Client newClient = new Client(name, lastname, identification, userLogged,address, phone, observations);
 		if(clientList.isEmpty()) {
 			clientList.add(newClient);
 		}else{
@@ -296,19 +322,23 @@ public class RestaurantManager {
 	public void updateClientLastname(String name, String lastname, String newLastname) {
 		int position = searchClientByName(name, lastname);
 		clientList.get(position).replaceLastname(newLastname);
+		clientList.get(position).setLastEditor(userLogged);
 		orderClientsByLastnameAndName();
 	}
 	public void updateClientAddress(String name, String lastname, String newAddress) {
 		int position = searchClientByName(name, lastname);
 		clientList.get(position).setNewAddress(newAddress);
+		clientList.get(position).setLastEditor(userLogged);
 	}
 	public void updateClientPhone(String name, String lastname, long newPhone) {
 		int position = searchClientByName(name, lastname);
 		clientList.get(position).setNewPhone(newPhone);
+		clientList.get(position).setLastEditor(userLogged);
 	}
 	public void updateClientObservations(String name, String lastname, String newObservations) {
 		int position = searchClientByName(name, lastname);
 		clientList.get(position).setNewObservations(newObservations);
+		clientList.get(position).setLastEditor(userLogged);
 	}
 	public void removeClient(String name, String lastname) {
 		int position = searchClientByName(name, lastname);
@@ -317,16 +347,18 @@ public class RestaurantManager {
 	public void disableClient(String name, String lastname) {
 		int position = searchClientByName(name, lastname);
 		clientList.get(position).setDisableState();
+		clientList.get(position).setLastEditor(userLogged);
 	}
 	public void enableClient(String name, String lastname) {
 		int position = searchClientByName(name, lastname);
 		clientList.get(position).setEnableState();
+		clientList.get(position).setLastEditor(userLogged);
 	}
 	
 	public boolean createIngredient(String name) {
 		boolean created = false;
 		if(searchIngredient(name)<0) {
-			Ingredient newIngredient = new Ingredient(name);
+			Ingredient newIngredient = new Ingredient(name, userLogged);
 			if(ingredientList.isEmpty()) {
 				ingredientList.add(newIngredient);
 			}else {
@@ -343,6 +375,7 @@ public class RestaurantManager {
 		if(searchIngredient(newName)<0 && ingredientList.get(searchIngredient(name)).getUses()==0) {
 			int position = searchIngredient(name);
 			ingredientList.get(position).setNewName(newName);
+			ingredientList.get(position).setLastEditor(userLogged);
 			updated = true;
 		}
 		return updated;
@@ -359,16 +392,18 @@ public class RestaurantManager {
 	public void disableIngredient(String name) {
 		int position = searchIngredient(name);
 		ingredientList.get(position).setDisable();
+		ingredientList.get(position).setLastEditor(userLogged);
 	}
 	public void enableIngredient(String name) {
 		int position = searchIngredient(name);
 		ingredientList.get(position).setEnable();
+		ingredientList.get(position).setLastEditor(userLogged);
 	}
 
 	public boolean createProductTypes(String name) {
 		boolean created = false;
 		if(searchProductTypes(name)<0) {
-			ProductTypes newProductTypes = new ProductTypes(name);
+			ProductTypes newProductTypes = new ProductTypes(name, userLogged);
 			if(productTypesList.isEmpty()) {
 				productTypesList.add(newProductTypes);
 			}else {
@@ -385,6 +420,7 @@ public class RestaurantManager {
 		if(searchProductTypes(newName)<0 && productTypesList.get(searchProductTypes(name)).getUses() == 0) {
 			int position = searchProductTypes(name);
 			productTypesList.get(position).setNewName(newName);
+			productTypesList.get(position).setLastEditor(userLogged);
 			updated = true;
 		}
 		return updated;
@@ -401,9 +437,66 @@ public class RestaurantManager {
 	public void disableProductTypes(String name) {
 		int position = searchProductTypes(name);
 		productTypesList.get(position).setDisable();
+		productTypesList.get(position).setLastEditor(userLogged);
 	}
 	public void enableProductType(String name) {
 		int position = searchProductTypes(name);
 		productTypesList.get(position).setEnable();
+		productTypesList.get(position).setLastEditor(userLogged);
 	}
+
+	
+	public boolean createProduct(String name, String productType, List<String> ingredients, String size, long price) {
+		boolean created = false;
+		if(searchProduct(name)<0) {
+			ProductTypes productType1 = productTypesList.get(searchProductTypes(productType));
+			ArrayList<Ingredient> ingredientsArray = new ArrayList<>();
+			for(int i = 0; i<ingredients.size(); i++) {
+				int ingredientPosition = searchIngredient(ingredients.get(i));
+				ingredientsArray.add(ingredientList.get(ingredientPosition));
+			}
+			Product newProduct = new Product(name, userLogged, productType1, ingredientsArray, size, price);
+			if(productList.isEmpty()) {
+				productList.add(newProduct);
+			}else {
+				int i = 0;
+				for(i = 0; i<productList.size() && productList.get(i).getName().compareTo(name)<0; i++);
+				productList.add(i, newProduct);
+			}
+			created = true;
+		}
+		return created;
+	}
+	public boolean updateProductName(String name, String newName) {
+		boolean updated = false;
+		if(searchProduct(newName)<0) {
+			int position = searchProduct(name);
+			productList.get(position).setNewName(newName);
+			updated = true;
+		}
+		return updated;
+	}
+	public void updateProductType(String name, String newProductType) {
+		int position = searchProduct(name);
+		int productTypePosition = searchProductTypes(newProductType);
+		productList.get(position).setNewProductType(productTypesList.get(productTypePosition));
+	}
+	public void updateSize(String name, String newSize) {
+		int position = searchProduct(name);
+		productList.get(position).setNewSize(newSize);
+	}
+	public void updatePrice(String name, long newPrice) {
+		int position = searchProduct(name);
+		productList.get(position).setNewPrice(newPrice);
+	}
+	public void addIngredient(String name, String ingredient) {
+		int positionIngredient = searchIngredient(ingredient);
+		int position = searchProduct(name);
+		productList.get(position).addNewIngredient(ingredientList.get(positionIngredient));
+	}
+	public void removeIngredient(String name, String ingredient) {
+		int position = searchProduct(name);
+		productList.get(position).removeIngredient(ingredient);
+	}
+	
 }

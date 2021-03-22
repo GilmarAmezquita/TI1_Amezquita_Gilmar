@@ -140,6 +140,8 @@ public class RestaurantManagerGUI {
     private TextField txtManageIngredientNewName;
     @FXML
     private TextField txtManageIngredientState;
+    @FXML
+    private TextField txtManageIngredientUses;
     
     
     @FXML
@@ -156,6 +158,12 @@ public class RestaurantManagerGUI {
     private TextField txtManageProductTypeState;
     @FXML
     private TextField txtManageProductTypeUses;
+    
+    
+    @FXML
+    private GridPane showManageCreateProduct;
+    @FXML
+    private GridPane showManageProduct;
     
     
     @FXML
@@ -391,6 +399,8 @@ public class RestaurantManagerGUI {
 		showManageIngredient.setVisible(false);
 		showManageCreateProductTypes.setVisible(false);
 		showManageProductTypes.setVisible(false);
+		showManageCreateProduct.setVisible(false);
+		showManageProduct.setVisible(false);
     }
     private void manageAllDisable() {
 		manageEmployee = false;
@@ -444,13 +454,12 @@ public class RestaurantManagerGUI {
     			manageOptionsDisable();
     			showManageCreateProductTypes.setVisible(true);
     			break;
-    	    	/*
-    			showManageCreateProducts.setVisible(true);
+    		case 6:
+    			manageOptionsDisable();
+    			showManageCreateProduct.setVisible(true);
     			break;
-    			*/
     	}
     }
-    
     @FXML
     private void showManageManageObject(ActionEvent event) {
     	int choice = objectToManage();
@@ -475,14 +484,13 @@ public class RestaurantManagerGUI {
     			manageOptionsDisable();
     			showManageProductTypes.setVisible(true);
     			break;
-    	    	/*
-    		case 5:
-    			showManageRemoveProducts.setVisible(true);
+    		case 6:
+    			manageOptionsDisable();
+    			showManageProduct.setVisible(true);
     			break;
-    			*/
     	}
     }
-    //Management Employee
+    
     @FXML
     private void showManageEmployees(ActionEvent event) {
     	manageAllDisable();
@@ -570,7 +578,6 @@ public class RestaurantManagerGUI {
     	}
     }
     
-    //Management User
     @FXML
     private void showManageUsers(ActionEvent event) {
     	manageAllDisable();
@@ -709,7 +716,6 @@ public class RestaurantManagerGUI {
     	}
     }
     
-    //Management Client
     @FXML
     private void showManageClients(ActionEvent event) throws IOException {
     	manageAllDisable();
@@ -832,7 +838,6 @@ public class RestaurantManagerGUI {
     	}
     }
     
-    //Management Ingredients
     @FXML
     private void showManageIngredients(ActionEvent event) {
     	manageAllDisable();
@@ -854,9 +859,19 @@ public class RestaurantManagerGUI {
     	txtManageIngredientName.getItems().clear();
 		txtManageIngredientNewName.setText(null);
 		txtManageIngredientState.setText(null);
+		txtManageIngredientUses.setText(null);
     	for(int i = 0; i<restaurantManager.getIngredientList().size(); i++) {
     		String name = restaurantManager.getIngredientList().get(i).getName();
     		txtManageIngredientName.getItems().add(name);
+    	}
+    }
+    @FXML
+    private void getIngredientInfo(ActionEvent event) {
+    	if(txtManageIngredientName.getValue() != null) {
+    		String name = txtManageIngredientName.getValue();
+    		int position = restaurantManager.searchIngredient(name);
+    		txtManageIngredientState.setText((restaurantManager.getIngredientList().get(position).getState())?"Enable":"Disable");
+    		txtManageIngredientUses.setText(""+restaurantManager.getIngredientList().get(position).getUses());
     	}
     }
     @FXML
@@ -879,6 +894,7 @@ public class RestaurantManagerGUI {
     			txtManageIngredientName.setValue(null);
     			txtManageIngredientNewName.setText(null);
     			txtManageIngredientState.setText(null);
+    			txtManageIngredientUses.setText(null);
     		}
     	}
     }
@@ -897,7 +913,6 @@ public class RestaurantManagerGUI {
     	}
     }
 
-    //Management Product Types
     @FXML
     private void showManageProductTypes(ActionEvent event) {
     	manageAllDisable();
@@ -972,7 +987,6 @@ public class RestaurantManagerGUI {
     	}
     }
 
-    //Management Products
     @FXML
     private void showManageProducts(ActionEvent event) {
     	manageAllDisable();

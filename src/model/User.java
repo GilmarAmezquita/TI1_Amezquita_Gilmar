@@ -4,8 +4,8 @@ public class User extends Employee implements Comparable<User>{
 	private String username;
 	private String password;
 	
-	public User(String n, String ln, long i, String un,String ps) {
-		super(n, ln, i);
+	public User(String n, String ln, long i, User creator, String un, String ps) {
+		super(n, ln, i, creator);
 		username = un;
 		password = ps;
 	}

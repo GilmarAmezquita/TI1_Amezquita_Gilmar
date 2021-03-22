@@ -3,10 +3,10 @@ package model;
 public class Employee extends Person{
 	private int orders;
 	private boolean haveUser;
-	public Employee(String n, String ln, long id) {
-		super(n, ln, id);
+	
+	public Employee(String n, String ln, long id, User creator) {
+		super(n, ln, id, creator);
 		orders = 0;
-		haveUser = false;
 	}
 	public void increaseOrders() {
 		orders++;

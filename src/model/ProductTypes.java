@@ -4,11 +4,14 @@ public class ProductTypes {
 	private String name;
 	private int uses;
 	private boolean state;
+	private User whoCreate;
+	private User lastEdit;
 	
-	public ProductTypes(String n) {
+	public ProductTypes(String n, User creator) {
 		name = n;
 		uses = 0;
 		state = true;
+		whoCreate = creator;
 	}
 	public String getName() {
 		return name;
@@ -33,5 +36,14 @@ public class ProductTypes {
 	}
 	public void setDisable() {
 		state = false;
+	}
+	public User getCreator() {
+		return whoCreate;
+	}
+	public User getLastEditor() {
+		return lastEdit;
+	}
+	public void setLastEditor(User lastEditor) {
+		lastEdit = lastEditor;
 	}
 }
