@@ -9,6 +9,8 @@ public class Product {
 	private List<Ingredient> ingredientsList;
 	private String size;
 	private long price;
+	private boolean state;
+	private int orders;
 	private User whoCreated;
 	private User lastEdited;
 	
@@ -18,6 +20,8 @@ public class Product {
 		ingredientsList = i;
 		size = s;
 		price = p;
+		state = true;
+		orders = 0;
 		whoCreated = creator;
 		lastEdited = null;
 	}
@@ -69,5 +73,20 @@ public class Product {
 	}
 	public void setNewPrice(long newPrice) {
 		price = newPrice;
+	}
+	public boolean getState() {
+		return state;
+	}
+	public void setStateEnable() {
+		state = true;
+	}
+	public void setStateDisable() {
+		state = false;
+	}
+	public int getOrders() {
+		return orders;
+	}
+	public void increaseOrders() {
+		orders++;
 	}
 }

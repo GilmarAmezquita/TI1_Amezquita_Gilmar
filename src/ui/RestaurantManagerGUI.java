@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.IOException;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -163,7 +164,33 @@ public class RestaurantManagerGUI {
     @FXML
     private GridPane showManageCreateProduct;
     @FXML
+    private TextField txtManageCreateProductName;
+    @FXML
+    private ChoiceBox<String> txtManageCreateProductProductType;
+    @FXML
+    private ChoiceBox<String> txtManageCreateProductIngredients;
+    @FXML
+    private ChoiceBox<String> txtManageCreateProductAddIngredient;
+    @FXML
+    private TextField txtManageCreateProductSize;
+    @FXML
+    private TextField txtManageCreateProductPrice;
+    @FXML
     private GridPane showManageProduct;
+    @FXML
+    private ChoiceBox<String> txtManageProductName;
+    @FXML
+    private ChoiceBox<String> txtManageProductIngredients;
+    @FXML
+    private ChoiceBox<String> txtManageProductAddIngredient;
+    @FXML
+    private ChoiceBox<String> txtManageProductProductType;
+    @FXML
+    private TextField txtManageProductSize;
+    @FXML
+    private TextField txtManageProductPrice;
+    @FXML
+    private TextField txtManageProductState;
     
     
     @FXML
@@ -987,13 +1014,184 @@ public class RestaurantManagerGUI {
     	}
     }
 
+    //management products
     @FXML
     private void showManageProducts(ActionEvent event) {
     	manageAllDisable();
     	manageProducts= true;
     	showManageObjectOptions.setVisible(true);
     }
+    @FXML
+    private void manageCreateNewProduct(ActionEvent event) {
+    	if(!txtManageCreateProductName.getText().isEmpty() && txtManageCreateProductProductType.getValue() != null) {
+    		if(!txtManageCreateProductIngredients.getItems().isEmpty() && !txtManageCreateProductPrice.getText().isEmpty() && !txtManageCreateProductSize.getText().isEmpty()) {
+    			String name = txtManageCreateProductName.getText();
+    			String productType = txtManageCreateProductProductType.getValue();
+    			List<String> ingredients = txtManageCreateProductIngredients.getItems();
+    			String size = txtManageCreateProductSize.getText();
+    			long price = Long.parseLong(txtManageCreateProductPrice.getText());
+    			boolean created = restaurantManager.createProduct(name, productType, ingredients, size, price);
+    			if(created) {
+    				txtManageCreateProductName.setText(null);
+    				txtManageCreateProductProductType.setValue(null);
+    				txtManageCreateProductIngredients.getItems().clear();
+    				txtManageCreateProductAddIngredient.getItems().clear();
+    				txtManageCreateProductSize.setText(null);
+    				txtManageCreateProductPrice.setText(null);
+    			}
+    		}
+    		
+    	}
+    }
+    @FXML
+    private void initializeCreateProductProductTypeList(MouseEvent event) {
+    	txtManageCreateProductProductType.getItems().clear();
+    	for(int i = 0; i<restaurantManager.getProductTypesList().size(); i++) {
+    		if(restaurantManager.getProductTypesList().get(i).getState()) {
+    			txtManageCreateProductProductType.getItems().add(restaurantManager.getProductList().get(i).getName());
+    		}
+    	}
+    }
+    @FXML
+    private void initializeCreateProductIngredientList(MouseEvent event) {
+    	txtManageCreateProductAddIngredient.getItems().clear();
+    	for(int i = 0; i<restaurantManager.getIngredientList().size(); i++) {
+    		if(restaurantManager.getIngredientList().get(i).getState()) {
+    			boolean founded = false;
+    			for(int j = 0; j<txtManageCreateProductIngredients.getItems().size() && !founded; i++) {
+        			if(restaurantManager.getIngredientList().get(i).getName().equals(txtManageCreateProductIngredients.getItems().get(j))) {
+        				founded = true;
+        			}
+    			}
+    			if(!founded) {
+    				txtManageCreateProductAddIngredient.getItems().add(restaurantManager.getIngredientList().get(i).getName());
+    			}
+    		}
+    	}
+    }
+    //management orders
 
+    @FXML
+    private void addIngredientToNewProduct(ActionEvent event) {
+    	if(txtManageCreateProductAddIngredient.getValue() != null) {
+    		txtManageCreateProductIngredients.getItems().add(txtManageCreateProductAddIngredient.getValue());
+    		txtManageCreateProductAddIngredient.setValue(null);
+    	}
+    }
+    @FXML
+    private void initializeProductList(MouseEvent event) {
+    	txtManageProductName.getItems().clear();
+    	txtManageProductProductType.getItems().clear();
+    	txtManageProductIngredients.getItems().clear();
+    	txtManageProductSize.setText(null);
+    	txtManageProductPrice.setText(null);
+    	txtManageProductState.setText(null);
+    	for(int i = 0; i<restaurantManager.getProductList().size(); i++) {
+    		txtManageProductName.getItems().add(restaurantManager.getProductList().get(i).getName());
+    	}
+    }
+    @FXML
+    private void getProductInfo(ActionEvent event) {
+    	if(txtManageProductName.getValue() != null) {
+    		int position = restaurantManager.searchProduct(txtManageProductName.getValue());
+    		for(int i = 0; i<restaurantManager.getProductTypesList().size(); i++) {
+    			if(restaurantManager.getProductTypesList().get(i).getState()) {
+    				txtManageProductProductType.getItems().add(restaurantManager.getProductTypesList().get(i).getName());
+    			}
+    		}
+    		txtManageProductProductType.setValue(restaurantManager.getProductList().get(position).getProductType().getName());
+    		for(int i = 0; i<restaurantManager.getProductList().get(position).getIngredients().size(); i++) {
+    			txtManageProductIngredients.getItems().add(restaurantManager.getProductList().get(position).getIngredients().get(i).getName());
+    		}
+    	}
+    }
+    @FXML
+    private void replaceProductProductType(ActionEvent event) {
+    	if(txtManageProductName.getValue() != null) {
+    		String name = txtManageProductName.getValue();
+    		String newProductType =txtManageProductProductType.getValue();
+    		restaurantManager.updateProductType(name, newProductType);
+    	}
+    }
+    @FXML
+    private void manageProductRemoveIngredient(ActionEvent event) {
+    	if(txtManageProductName.getValue() != null && txtManageProductIngredients.getValue() != null) {
+    		String name = txtManageProductName.getValue();
+    		String removeIngredient = txtManageProductIngredients.getValue();
+    		restaurantManager.removeProductIngredient(name, removeIngredient);
+    		txtManageProductIngredients.getItems().remove(removeIngredient);
+    	}
+    }
+    @FXML
+    private void initializeAddIngredientList(MouseEvent event) {
+    	if(txtManageProductName.getValue() != null) {
+    		int position = restaurantManager.searchProduct(txtManageProductName.getValue());
+    		txtManageProductAddIngredient.getItems().clear();
+        	for(int i = 0; i<restaurantManager.getIngredientList().size(); i++) {
+        		boolean founded = false;
+        		if(restaurantManager.getIngredientList().get(i).getState()) {
+        			for(int j = 0; j<restaurantManager.getProductList().get(position).getIngredients().size(); i++) {
+        				if(restaurantManager.getIngredientList().get(i).getName().equals(restaurantManager.getProductList().get(position).getIngredients().get(i).getName())) {
+        					founded = true;
+        				}
+        			}
+    				if(!founded) {
+    					txtManageProductAddIngredient.getItems().add(restaurantManager.getIngredientList().get(i).getName());
+    				}
+        		}
+        	}
+    	}
+    }
+    @FXML
+    private void manageProductAddIngredient(ActionEvent event) {
+    	if(txtManageProductName.getValue() != null && txtManageProductAddIngredient.getValue() != null) {
+    		String name = txtManageProductName.getValue();
+    		String newIngredientString = txtManageProductAddIngredient.getValue();
+    		restaurantManager.addProductIngredient(name, newIngredientString);
+    		txtManageProductAddIngredient.getItems().remove(newIngredientString);
+    	}
+    }
+    @FXML
+    private void manageUpdateSizeAndPrice(ActionEvent event) {
+    	if(txtManageProductName.getValue() != null && !txtManageProductSize.getText().isEmpty() && !txtManageProductPrice.getText().isEmpty()) {
+    		String name = txtManageProductName.getValue();
+    		String size = txtManageProductSize.getText();
+    		long price = Long.parseLong(txtManageProductPrice.getText());
+    		restaurantManager.updateProductSize(name, size);
+    		restaurantManager.updateProductPrice(name, price);
+    	}
+    }
+    @FXML
+    private void manageRemoveProduct(ActionEvent event) {
+    	if(txtManageProductName.getValue() != null) {
+    		String name = txtManageProductName.getValue();
+    		boolean remove = restaurantManager.removeProduct(name);
+    		if(remove) {
+    			txtManageProductName.getItems().clear();
+    	    	txtManageProductProductType.getItems().clear();
+    	    	txtManageProductIngredients.getItems().clear();
+    	    	txtManageProductSize.setText(null);
+    	    	txtManageProductPrice.setText(null);
+    	    	txtManageProductState.setText(null);
+    		}
+    	}
+    }
+    @FXML
+    private void setProductEnable(ActionEvent event) {
+    	if(txtManageProductName.getValue() != null){
+    		String name = txtManageProductName.getValue();
+    		restaurantManager.enableProduct(name);
+    		txtManageProductState.setText("Enable");
+    	}
+    }
+    @FXML
+    private void setProductDisable(ActionEvent event) {
+    	if(txtManageProductName.getValue() != null){
+    		String name = txtManageProductName.getValue();
+    		restaurantManager.disableProduct(name);
+    		txtManageProductState.setText("Disable");
+    	}
+    }
     
 	public RestaurantManagerGUI(RestaurantManager rm){
 		restaurantManager = rm;

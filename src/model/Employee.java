@@ -1,6 +1,6 @@
 package model;
 
-public class Employee extends Person{
+public class Employee extends Person {
 	private int orders;
 	private boolean haveUser;
 	

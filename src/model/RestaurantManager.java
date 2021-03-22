@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class RestaurantManager {
+	
 	private List<Employee> employeeList;
 	private List<User> userList;
 	private List<Client> clientList;
@@ -13,7 +14,7 @@ public class RestaurantManager {
 	private List<ProductTypes> productTypesList;
 	private List<Product> productList;
 	private User userLogged;
-		
+	
 	public RestaurantManager() {
 		employeeList = new ArrayList<>();
 		userList = new ArrayList<>();
@@ -21,6 +22,7 @@ public class RestaurantManager {
 		ingredientList = new ArrayList<>();
 		productTypesList = new ArrayList<>();
 	}
+	
 	public List<Employee> getEmployeeList(){
 		return employeeList;
 	}
@@ -35,6 +37,9 @@ public class RestaurantManager {
 	}
 	public List<ProductTypes> getProductTypesList(){
 		return productTypesList;
+	}
+	public List<Product> getProductList(){
+		return productList;
 	}
 	public User getUserLogged() {
 		return userLogged;
@@ -481,22 +486,40 @@ public class RestaurantManager {
 		int productTypePosition = searchProductTypes(newProductType);
 		productList.get(position).setNewProductType(productTypesList.get(productTypePosition));
 	}
-	public void updateSize(String name, String newSize) {
+	public void updateProductSize(String name, String newSize) {
 		int position = searchProduct(name);
 		productList.get(position).setNewSize(newSize);
 	}
-	public void updatePrice(String name, long newPrice) {
+	public void updateProductPrice(String name, long newPrice) {
 		int position = searchProduct(name);
 		productList.get(position).setNewPrice(newPrice);
 	}
-	public void addIngredient(String name, String ingredient) {
+	public void addProductIngredient(String name, String ingredient) {
 		int positionIngredient = searchIngredient(ingredient);
 		int position = searchProduct(name);
 		productList.get(position).addNewIngredient(ingredientList.get(positionIngredient));
 	}
-	public void removeIngredient(String name, String ingredient) {
+	public void removeProductIngredient(String name, String ingredient) {
 		int position = searchProduct(name);
 		productList.get(position).removeIngredient(ingredient);
 	}
+	public boolean removeProduct(String name) {
+		boolean removed = false;
+		int position = searchProduct(name);
+		if(productList.get(position).getOrders()==0) {
+			productList.remove(position);
+			removed = true;
+		}
+		return removed;
+	}
+	public void disableProduct(String name) {
+		int position = searchProduct(name);
+		productList.get(position).setStateDisable();
+	}
+	public void enableProduct(String name) {
+		int position = searchProduct(name);
+		productList.get(position).setStateEnable();
+	}
 	
+	//Order
 }
