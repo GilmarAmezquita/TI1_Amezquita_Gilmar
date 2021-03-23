@@ -1,6 +1,7 @@
 package model;
 
-public class Employee extends Person {
+public class Employee extends Person{
+	private static final long serialVersionUID = 1L;
 	private int orders;
 	private boolean haveUser;
 	

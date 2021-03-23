@@ -1,5 +1,7 @@
 package ui;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +14,15 @@ public class Main extends Application {
 	private RestaurantManagerGUI restaurantManagerGUI;
 	
 	public Main(){
-		restaurantManager = new RestaurantManager();
+		try {
+			restaurantManager = new RestaurantManager();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		restaurantManagerGUI = new RestaurantManagerGUI(restaurantManager);
 	}
 

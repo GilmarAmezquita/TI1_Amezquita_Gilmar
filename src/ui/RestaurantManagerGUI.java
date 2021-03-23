@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -563,7 +564,7 @@ public class RestaurantManagerGUI {
 		txtManageEmployeeState.setText(null);
     }
     @FXML
-    private void updateEmployeeName(ActionEvent event) {
+    private void updateEmployeeName(ActionEvent event) throws FileNotFoundException, IOException {
     	if(txtManageEmployeeIdentification.getValue() != null && !txtManageEmployeeName.getText().isEmpty()) {
     		long identification = txtManageEmployeeIdentification.getValue();
     		String newName = txtManageEmployeeName.getText();
@@ -571,7 +572,7 @@ public class RestaurantManagerGUI {
     	}
     }
     @FXML
-    private void updateEmployeeLastname(ActionEvent event) {
+    private void updateEmployeeLastname(ActionEvent event) throws FileNotFoundException, IOException {
     	if(txtManageEmployeeIdentification.getValue() != null && !txtManageEmployeeLastname.getText().isEmpty()) {
     		long identification = txtManageEmployeeIdentification.getValue();
     		String newLastname = txtManageEmployeeLastname.getText();
@@ -579,7 +580,7 @@ public class RestaurantManagerGUI {
     	}
     }
     @FXML
-    private void manageRemoveEmployee(ActionEvent event) {
+    private void manageRemoveEmployee(ActionEvent event) throws FileNotFoundException, IOException {
     	if(txtManageEmployeeIdentification.getValue() != null) {
     		restaurantManager.removeEmployee(txtManageEmployeeIdentification.getValue());
     		txtManageEmployeeIdentification.setValue(null);
@@ -589,18 +590,18 @@ public class RestaurantManagerGUI {
     	}
     }
     @FXML
-    private void setEmployeeDisable(ActionEvent event) {
+    private void setEmployeeDisable(ActionEvent event) throws FileNotFoundException, IOException {
     	if(txtManageEmployeeIdentification.getValue() != null) {
     		long identification = txtManageEmployeeIdentification.getValue();
-    		restaurantManager.enableEmployee(identification);
+    		restaurantManager.disableEmployee(identification);
     		txtManageEmployeeState.setText("Disable");
     	}
     }
     @FXML
-    private void setEmployeeEnable(ActionEvent event) {
+    private void setEmployeeEnable(ActionEvent event) throws FileNotFoundException, IOException {
     	if(txtManageEmployeeIdentification.getValue() != null) {
     		long identification = txtManageEmployeeIdentification.getValue();
-    		restaurantManager.disableEmployee(identification);
+    		restaurantManager.enableEmployee(identification);
     		txtManageEmployeeState.setText("Enable");
     	}
     }
@@ -704,7 +705,7 @@ public class RestaurantManagerGUI {
     	}
     }
     @FXML
-    private void updateUserName(ActionEvent event) {
+    private void updateUserName(ActionEvent event) throws FileNotFoundException, IOException {
     	if(!txtManageUserName.getText().isEmpty() && !txtManageUserIdentification.getText().isEmpty()) {
     		long identification = Long.parseLong(txtManageUserIdentification.getText());
     		String newName = txtManageUserName.getText();
@@ -712,7 +713,7 @@ public class RestaurantManagerGUI {
     	}
     }
     @FXML
-    private void updateUserLastname(ActionEvent event) {
+    private void updateUserLastname(ActionEvent event) throws FileNotFoundException, IOException {
     	if(!txtManageUserLastname.getText().isEmpty() && !txtManageUserIdentification.getText().isEmpty()) {
     		long identification = Long.parseLong(txtManageUserIdentification.getText());
     		String newLastname = txtManageUserLastname.getText();
@@ -720,14 +721,14 @@ public class RestaurantManagerGUI {
     	}
     }
     @FXML
-    private void manageRemoveUser(ActionEvent event) {
+    private void manageRemoveUser(ActionEvent event) throws FileNotFoundException, IOException {
     	if(!txtManageUserIdentification.getText().isEmpty()) {
     		long identification = Long.parseLong(txtManageUserIdentification.getText());
     		restaurantManager.removeUser(identification);
     	}
     }
     @FXML
-    private void setUserDisable(ActionEvent event) {
+    private void setUserDisable(ActionEvent event) throws FileNotFoundException, IOException {
     	if(!txtManageUserIdentification.getText().isEmpty()) {
     		long identification = Long.parseLong(txtManageUserIdentification.getText());
     		restaurantManager.disableUser(identification);
@@ -735,7 +736,7 @@ public class RestaurantManagerGUI {
     	}
     }
     @FXML
-    private void setUserEnable(ActionEvent event) {
+    private void setUserEnable(ActionEvent event) throws FileNotFoundException, IOException {
     	if(!txtManageUserIdentification.getText().isEmpty()) {
     		long identification = Long.parseLong(txtManageUserIdentification.getText());
     		restaurantManager.enableUser(identification);

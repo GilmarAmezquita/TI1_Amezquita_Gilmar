@@ -1,11 +1,20 @@
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class RestaurantManager {
+	private final static String SAVE_PATH_FILE_EMPLOYEES = "data/employees.lcd";
+	private final static String SAVE_PATH_FILE_USERS = "data/users.lcd";
 	
 	private List<Employee> employeeList;
 	private List<User> userList;
@@ -15,12 +24,42 @@ public class RestaurantManager {
 	private List<Product> productList;
 	private User userLogged;
 	
-	public RestaurantManager() {
+	public RestaurantManager() throws ClassNotFoundException, IOException {
 		employeeList = new ArrayList<>();
 		userList = new ArrayList<>();
 		clientList = new ArrayList<>();
 		ingredientList = new ArrayList<>();
 		productTypesList = new ArrayList<>();
+		loadDataEmployee();
+		loadDataUsers();
+	}
+	public void saveDataEmployee() throws FileNotFoundException, IOException {
+		ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_EMPLOYEES));
+		oss.writeObject(employeeList);
+		oss.close();
+	}
+	public void saveDataUsers() throws FileNotFoundException, IOException {
+		ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_USERS));
+		oss.writeObject(userList);
+		oss.close();
+	}
+	@SuppressWarnings("unchecked")
+	public void loadDataEmployee() throws ClassNotFoundException, IOException {
+		File f = new File(SAVE_PATH_FILE_EMPLOYEES);
+		if(f.exists()) {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			employeeList = (ArrayList<Employee>) ois.readObject();
+			ois.close();
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public void loadDataUsers() throws ClassNotFoundException, IOException {
+		File f = new File(SAVE_PATH_FILE_USERS);
+		if(f.exists()) {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			userList = (ArrayList<User>) ois.readObject();
+			ois.close();
+		}
 	}
 	
 	public List<Employee> getEmployeeList(){
@@ -76,6 +115,28 @@ public class RestaurantManager {
 		}
 	};
 	
+	public int searchEmployeeByIdentification(long identification) {
+		boolean founded= false;
+		int position = -1;
+		int start = 0;
+		int end = employeeList.size()-1;
+		if(end == 0) {
+			if(employeeList.get(end).getIdentification() == identification) {
+				position = end;
+			}
+		}else {
+			while(employeeList.size()>0 && start <= end && !founded) {
+				int mid = (start+end)/2;
+				if(employeeList.get(mid).getIdentification() == identification) {
+					founded = true;
+					position = mid;
+				}else if(employeeList.get(mid).getIdentification() > identification){
+					end = mid-1;
+				}else start = mid+1;
+			}
+		}
+		return position;
+	}
 	public int searchUserByUsername(String username) {
 		orderUsersByUsername();
 		boolean founded = false;
@@ -105,22 +166,6 @@ public class RestaurantManager {
 				founded = true;
 				position = mid;
 			}else if(userList.get(mid).getIdentification()>identification) {
-				end = mid-1;
-			}else start = mid+1;
-		}
-		return position;
-	}
-	public int searchEmployeeByIdentification(long identification) {
-		boolean founded= false;
-		int position = -1;
-		int start = 0;
-		int end = employeeList.size();
-		while(employeeList.size()>0 && start <= end && !founded) {
-			int mid = (start+end)/2;
-			if(employeeList.get(mid).getIdentification() == identification) {
-				founded = true;
-				position = mid;
-			}else if(employeeList.get(mid).getIdentification() > identification){
 				end = mid-1;
 			}else start = mid+1;
 		}
@@ -208,7 +253,7 @@ public class RestaurantManager {
 		return login;
 	}
 	
-	public boolean createEmployee(String name, String lastname, long identifier) {
+	public boolean createEmployee(String name, String lastname, long identifier) throws FileNotFoundException, IOException {
 		boolean added = false;
 		if(searchEmployeeByIdentification(identifier)<0) {
 			Employee newEmployee = new Employee(name, lastname, identifier, userLogged);
@@ -219,51 +264,57 @@ public class RestaurantManager {
 				for(i = 0; i<employeeList.size() && employeeList.get(i).getIdentification()<identifier; i++);
 				employeeList.add(i, newEmployee);
 			}
+			saveDataEmployee();
 			added = true;
 		}
 		return added;
 	}
-	public void updateEmployeeName(long identification, String newName) {
+	public void updateEmployeeName(long identification, String newName) throws FileNotFoundException, IOException {
 		int position = searchEmployeeByIdentification(identification);
 		employeeList.get(position).replaceName(newName);
 		employeeList.get(position).setLastEditor(userLogged);
 		if(employeeList.get(position).getIfHaveUser()) {
 			updateUserName(identification, newName);
 		}
+		saveDataEmployee();
 	}
-	public void updateEmployeeLastname(long identification, String newLastname) {
+	public void updateEmployeeLastname(long identification, String newLastname) throws FileNotFoundException, IOException {
 		int position = searchEmployeeByIdentification(identification);
 		employeeList.get(position).replaceLastname(newLastname);
 		employeeList.get(position).setLastEditor(userLogged);
 		if(employeeList.get(position).getIfHaveUser()) {
 			updateUserLastname(identification, newLastname);
 		}
+		saveDataEmployee();
 	}
-	public void removeEmployee(long identification) {
+	public void removeEmployee(long identification) throws FileNotFoundException, IOException {
 		int position = searchEmployeeByIdentification(identification);
 		if(employeeList.get(position).getIfHaveUser()) {
 			removeUser(identification);
 		}
 		employeeList.remove(position);
+		saveDataEmployee();
 	}	
-	public void disableEmployee(long identification) {
+	public void disableEmployee(long identification) throws FileNotFoundException, IOException {
 		int position = searchEmployeeByIdentification(identification);
 		employeeList.get(position).setDisableState();
 		employeeList.get(position).setLastEditor(userLogged);
 		if(employeeList.get(position).getIfHaveUser()) {
 			disableUser(identification);
 		}
+		saveDataEmployee();
 	}
-	public void enableEmployee(long identification) {
+	public void enableEmployee(long identification) throws FileNotFoundException, IOException {
 		int position = searchEmployeeByIdentification(identification);
 		employeeList.get(position).setEnableState();
 		employeeList.get(position).setLastEditor(userLogged);
 		if(employeeList.get(position).getIfHaveUser()) {
 			enableUser(identification);
 		}
+		saveDataEmployee();
 	}
 	
-	public boolean createUser(String name, String lastname, long identifier, String username,String password) {
+	public boolean createUser(String name, String lastname, long identifier, String username,String password) throws FileNotFoundException, IOException {
 		boolean noCreate = employeeList.get(searchEmployeeByIdentification(identifier)).getIfHaveUser();
 		boolean added = false;
 		if(searchUserByUsername(username) < 0 && !noCreate) {
@@ -277,36 +328,42 @@ public class RestaurantManager {
 				userList.add(i, newUser);
 				employeeList.get(i).setHaveUserTrue();
 			}
+			saveDataUsers();
 			added = true;
 		}
 		return added;
 	}
-	public void updateUserName(long identification, String newName) {
+	public void updateUserName(long identification, String newName) throws FileNotFoundException, IOException {
 		int position = searchUserByIdentification(identification);
 		userList.get(position).replaceName(newName);
 		userList.get(position).setLastEditor(userLogged);
+		saveDataUsers();
 	}
-	public void updateUserLastname(long identification, String newLastname) {
+	public void updateUserLastname(long identification, String newLastname) throws FileNotFoundException, IOException {
 		int position = searchUserByIdentification(identification);
 		userList.get(position).replaceLastname(newLastname);
 		userList.get(position).setLastEditor(userLogged);
+		saveDataUsers();
 	}
-	public void removeUser(long identification) {
+	public void removeUser(long identification) throws FileNotFoundException, IOException {
 		int position = searchUserByIdentification(identification);
 		int employeePosition = searchEmployeeByIdentification(identification);
 		employeeList.get(employeePosition).setHaveUserFalse();
 		employeeList.get(employeePosition).setLastEditor(userLogged);
 		userList.remove(position);
+		saveDataUsers();
 	}
-	public void disableUser(long identification) {
+	public void disableUser(long identification) throws FileNotFoundException, IOException {
 		int position = searchUserByIdentification(identification);
 		userList.get(position).setDisableState();
 		userList.get(position).setLastEditor(userLogged);
+		saveDataUsers();
 	}
-	public void enableUser(long identification) {
+	public void enableUser(long identification) throws FileNotFoundException, IOException {
 		int position = searchUserByIdentification(identification);
 		userList.get(position).setEnableState();
 		userList.get(position).setLastEditor(userLogged);
+		saveDataUsers();
 	}
 	
 	public void createClient(String name, String lastname, long identification,String address, long phone, String observations) {
