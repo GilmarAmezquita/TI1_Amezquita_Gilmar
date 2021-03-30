@@ -1,18 +1,23 @@
 package model;
 
-public class Ingredient {
+import java.io.Serializable;
+
+public class Ingredient implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private int uses;
 	private boolean state;
 	private User whoCreate;
-	private User lastEdit;
+	private User lastEditor;
+	private String lastEditorName;
 	
 	public Ingredient(String n, User creator) {
 		name = n;
 		uses = 0;
 		state = true;
 		whoCreate = creator;
-		lastEdit = null;
+		lastEditor = null;
+		lastEditorName = null;
 	}
 	public String getName() {
 		return name;
@@ -42,9 +47,13 @@ public class Ingredient {
 		return whoCreate;
 	}
 	public User getLastEditor() {
-		return lastEdit;
+		return lastEditor;
 	}
-	public void setLastEditor(User lastEditor) {
-		lastEdit = lastEditor;
+	public void setLastEditor(User lE) {
+		lastEditor = lE;
+		lastEditorName = lE.getUsername();
+	}
+	public String getLastEditorName() {
+		return lastEditorName;
 	}
 }

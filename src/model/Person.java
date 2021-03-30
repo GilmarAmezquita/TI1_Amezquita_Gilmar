@@ -9,7 +9,8 @@ public abstract class Person implements Serializable{
 	private String lastname;
 	private boolean state;
 	private User whoCreate;
-	private User lastEdit;
+	private User lastEditor;
+	private String lastEditorName;
 
 	public Person(String n, String ln, long id, User creator) {
 		name = n;
@@ -17,10 +18,14 @@ public abstract class Person implements Serializable{
 		identification = id;
 		state = true;
 		whoCreate = creator;
-		lastEdit = null;
+		lastEditor = null;
+		lastEditorName = null;
 	}
 	public long getIdentification() {
 		return identification;
+	}
+	public void setNewIdentification(long newId) {
+		identification = newId;
 	}
 	public String getName() {
 		return name;
@@ -43,13 +48,20 @@ public abstract class Person implements Serializable{
 	public void setEnableState() {
 		state = true;
 	}
-	public User getCreater() {
+	public User getCreator() {
 		return whoCreate;
 	}
 	public User getLastEditor() {
-		return lastEdit;
+		return lastEditor;
 	}
-	public void setLastEditor(User lastEditor) {
-		lastEdit = lastEditor;
+	public void setLastEditor(User lEditor) {
+		lastEditor = lEditor;
+		lastEditorName = lastEditor.getUsername();
+	}
+	public String getLastEditorName() {
+		return lastEditorName;
+	}
+	public int compareByIdentification(Person o) {
+		return Long.compare(this.getIdentification(), o.getIdentification());
 	}
 }

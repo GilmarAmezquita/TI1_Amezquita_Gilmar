@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #EEFC1B;" stylesheets="@../../style/table-view.css" VBox.vgrow="ALWAYS">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="60.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+         </rowConstraints>
+         <children>
+            <Label text="Listado de Pedidos" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <font>
+                  <Font name="System Bold Italic" size="28.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#showScreenMenuOption" prefWidth="80.0" style="-fx-background-radius: 10; -fx-background-color: #7BC860;" text="Volver" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Button>
+            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.rowIndex="1">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="200.0" minWidth="10.0" prefWidth="106.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="494.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+               </rowConstraints>
+               <children>
+                  <TableView fx:id="tvOrderList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#getOrderSelected" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <columns>
+                        <TableColumn fx:id="tcOrderCode" prefWidth="75.0" sortable="false" text="Código" />
+                        <TableColumn fx:id="tcOrderPrice" prefWidth="75.0" sortable="false" text="Precio" />
+                        <TableColumn fx:id="tcOrderStatus" prefWidth="75.0" sortable="false" text="Estado" />
+                        <TableColumn prefWidth="75.0" sortable="false" text="Cliente">
+                           <columns>
+                              <TableColumn fx:id="tcOrderClientLastname" prefWidth="75.0" text="Apellido" />
+                              <TableColumn fx:id="tcOrderClientName" prefWidth="75.0" text="Nombre" />
+                           </columns></TableColumn>
+                        <TableColumn prefWidth="75.0" text="Empleado">
+                           <columns>
+                              <TableColumn fx:id="tcOrderEmployeeLastname" prefWidth="75.0" text="Apellido" />
+                              <TableColumn fx:id="tcOrderEmployeeName" prefWidth="75.0" text="Nombre" />
+                           </columns>
+                        </TableColumn>
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <GridPane maxHeight="1.7976931348623157E308" maxWidth="200.0" style="-fx-background-color: #121209;">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="txtOrderCode" promptText="Código" style="-fx-background-radius: 10;" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="5.0" right="5.0" top="70.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <Label text="Pedido" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                           <font>
+                              <Font name="System Bold Italic" size="20.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets top="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <TextField fx:id="txtOrderObservations" promptText="Observaciones" style="-fx-background-radius: 10;" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="5.0" right="5.0" top="110.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateOrder" prefWidth="80.0" style="-fx-background-radius: 10; -fx-background-color: #7BC860;" text="Update" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
+                           <GridPane.margin>
+                              <Insets bottom="35.0" left="10.0" right="10.0" />
+                           </GridPane.margin>
+                        </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeOrder" prefWidth="80.0" style="-fx-background-radius: 10; -fx-background-color: #C87460;" text="Remove" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                           <GridPane.margin>
+                              <Insets bottom="5.0" left="10.0" right="10.0" />
+                           </GridPane.margin>
+                        </Button>
+                        <TextField fx:id="txtOrderState" editable="false" promptText="Estado" style="-fx-background-radius: 10;" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="5.0" right="5.0" top="150.0" />
+                           </GridPane.margin>
+                        </TextField>
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+   </children>
+</VBox>

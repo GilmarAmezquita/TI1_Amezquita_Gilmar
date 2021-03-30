@@ -12,6 +12,9 @@ public class Employee extends Person{
 	public void increaseOrders() {
 		orders++;
 	}
+	public void decreaseOrders() {
+		orders--;
+	}
 	public int getOrders() {
 		return orders;
 	}

@@ -1,47 +1,39 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product {
+public class Product implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private ProductTypes productType;
 	private List<Ingredient> ingredientsList;
-	private String size;
-	private long price;
+	private List<ProductSize> productSizesList;
 	private boolean state;
 	private int orders;
 	private User whoCreated;
-	private User lastEdited;
+	private User lastEditor;
+	private String lastEditorName;
 	
 	public Product(String n, User creator, ProductTypes pT, ArrayList<Ingredient> i, String s, long p) {
 		name = n;
 		productType = pT;
 		ingredientsList = i;
-		size = s;
-		price = p;
+		ProductSize newProductSize = new ProductSize(s, p);
+		productSizesList = new ArrayList<>();
+		productSizesList.add(newProductSize);
 		state = true;
 		orders = 0;
 		whoCreated = creator;
-		lastEdited = null;
+		lastEditor = null;
+		lastEditorName = null;
 	}
 	public String getName() {
 		return name;
 	}
 	public void setNewName(String newName) {
 		name = newName;
-	}
-	public User getCreator() {
-		return whoCreated;
-	}
-	public User getLastEditor() {
-		return lastEdited;
-	}
-	public void setLastEditor(User lastEditor) {
-		lastEdited = lastEditor;
-	}	
-	public ProductTypes getProductType() {
-		return productType;
 	}
 	public void setNewProductType(ProductTypes newProductType) {
 		productType = newProductType;
@@ -62,17 +54,44 @@ public class Product {
 		}
 		
 	}
-	public String getSize() {
-		return size;
+	public int searchSize(String name) {
+		boolean founded = false;
+		int position = -1;
+		int start = 0;
+		int end = productSizesList.size()-1;
+		if(end == 0) {
+			if(productSizesList.get(end).getName().compareTo(name)==0) {
+				position = end;
+			}
+		}else {
+			while(productSizesList.size()>0 && start <= end && !founded) {
+				int mid = (start+end)/2;
+				if(productSizesList.get(mid).getName().compareTo(name)==0) {
+					position = mid;
+					founded = true;
+				}else if(productSizesList.get(mid).getName().compareTo(name)>0) {
+					end = mid-1;
+				}else start = mid+1;
+			}
+		}
+		return position;
 	}
-	public void setNewSize(String newSize) {
-		size = newSize;
+	public List<ProductSize> getProductSizes(){
+		return productSizesList;
 	}
-	public long getPrice() {
-		return price;
+	public void addNewSize(String n, long p) {
+		ProductSize newProductSize = new ProductSize(n, p);
+		productSizesList.add(newProductSize);
 	}
-	public void setNewPrice(long newPrice) {
-		price = newPrice;
+	public boolean removeSize(String n) {
+		boolean removed = false;
+		for(int i = 0; i<productSizesList.size() && !removed; i++) {
+			if(productSizesList.get(i).getName().equals(n) && productSizesList.get(i).getOrders()==0) {
+				productSizesList.remove(i);
+				removed = true;
+			}
+		}
+		return removed;
 	}
 	public boolean getState() {
 		return state;
@@ -83,10 +102,40 @@ public class Product {
 	public void setStateDisable() {
 		state = false;
 	}
+	public void increaseSizeOrders(String name) {
+		int position = searchSize(name);
+		productSizesList.get(position).increaseOrders();
+		updateOrders();
+	}
+	public void decreaseSizeOrders(String name) {
+		int position = searchSize(name);
+		productSizesList.get(position).decreaseOrders();
+		updateOrders();
+	}
+	public void updateOrders() {
+		int o = 0;
+		for(int i = 0; i<productSizesList.size(); i++) {
+			o += productSizesList.get(i).getOrders();
+		}
+		orders = o;
+	}
 	public int getOrders() {
 		return orders;
 	}
-	public void increaseOrders() {
-		orders++;
+	public User getCreator() {
+		return whoCreated;
+	}
+	public User getLastEditor() {
+		return lastEditor;
+	}
+	public void setLastEditor(User lE) {
+		lastEditor = lE;
+		lastEditorName = lE.getUsername();
+	}
+	public String getLastEditorName() {
+		return lastEditorName;
+	}
+	public ProductTypes getProductType() {
+		return productType;
 	}
 }
